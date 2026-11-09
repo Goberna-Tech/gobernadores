@@ -1,0 +1,12 @@
+{
+  "name": "@mcdl/frontend",
+  "version": "1.0.0",
+  "description": "Interfaz Web Accesible y Moderna para el Foro de Alcaldes y Gobernadores 2026",
+  "type": "module",
+  "author": "Ricardo Alonso Rodriguez Malaver (DNI: 74909613)",
+  "dependencies": {
+    "@mcdl/shared": "*"
+  },
+  "license": "ISC"
+}
+

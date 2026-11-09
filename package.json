@@ -1,0 +1,30 @@
+{
+  "name": "@mcdl/goberna-monorepo",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Plataforma Oficial del Foro de Alcaldes y Gobernadores 2026 - Clean Architecture & Topología A",
+  "author": "GOBERNA LATAM",
+  "workspaces": [
+    "packages/*",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "test": "npm --prefix backend test"
+  },
+  "keywords": [
+    "mcdl",
+    "goberna",
+    "foro-alcaldes",
+    "clean-architecture",
+    "vertical-slices"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "localtunnel": "^2.0.2",
+    "untun": "^0.2.2"
+  }
+}

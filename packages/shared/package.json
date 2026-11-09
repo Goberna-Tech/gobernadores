@@ -1,0 +1,13 @@
+{
+  "name": "@mcdl/shared",
+  "version": "1.0.0",
+  "description": "Contratos compartidos, constantes, validadores y utilidades del Foro de Alcaldes",
+  "main": "src/index.js",
+  "exports": "./src/index.js",
+  "type": "module",
+  "author": "Ricardo Alonso Rodriguez Malaver (DNI: 74909613)",
+  "license": "ISC",
+  "dependencies": {
+    "peru-ubigeo": "^0.1.3"
+  }
+}

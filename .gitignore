@@ -1,0 +1,26 @@
+# Entornos y credenciales privadas
+.env
+**/.env
+*.env
+!.env.example
+
+# Dependencias
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compilados y caches
+dist/
+build/
+.cache/
+.parcel-cache/
+.DS_Store
+Thumbs.db
+
+# Logs y almacenamiento temporal
+logs/
+*.log
+npm-debug.log*
+

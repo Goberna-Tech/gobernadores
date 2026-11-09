@@ -1,0 +1,15 @@
+[
+  {
+    "id": "REG-MW32X2VA",
+    "nombre": "Carlos",
+    "apellido": "Mendoza",
+    "cargo": "Alcalde Distrital",
+    "provincia": "Lima",
+    "distrito": "Miraflores",
+    "whatsapp": "907772155",
+    "correo": "carlos.mendoza@munimiraflores.gob.pe",
+    "aceptaTerminos": true,
+    "fechaRegistro": "2026-11-05T05:02:25.990Z",
+    "syncedToSheets": true
+  }
+]

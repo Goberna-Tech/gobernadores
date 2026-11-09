@@ -1,0 +1,51 @@
+/* Design Tokens - Foro de Alcaldes y Gobernadores 2026 */
+:root {
+  /* Paleta cromática oficial de Adobe XD */
+  --bg-dark: #040d16;
+  --bg-deep: #02070d;
+  --bg-card: #081528;
+  --bg-card-hover: #0c1e3a;
+  --bg-glass: rgba(8, 21, 40, 0.78);
+  
+  --primary-blue: #617cff;
+  --primary-blue-hover: #4e6bff;
+  --primary-blue-glow: rgba(97, 124, 255, 0.35);
+  
+  --accent-blue: #2563eb;
+  --accent-purple: #a191f4;
+  --accent-purple-light: #f3effc;
+  
+  --whatsapp-green: #25d366;
+  --whatsapp-dark: #128c7e;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8492a6;
+  --text-highlight: #617cff;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(97, 124, 255, 0.4);
+  
+  /* Tipografías Oficiales del Prototipo Adobe XD */
+  --font-onest: 'Onest', -apple-system, sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-sora: 'Sora', sans-serif;
+  
+  --font-heading: var(--font-onest);
+  --font-body: var(--font-inter);
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-glow: 0 0 35px rgba(97, 124, 255, 0.25);
+  --shadow-whatsapp: 0 10px 25px rgba(37, 211, 102, 0.4);
+  
+  --transition-smooth: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.15s ease-out;
+}
