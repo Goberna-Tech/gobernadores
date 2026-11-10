@@ -1,18 +1,22 @@
 /* Design Tokens - Foro de Alcaldes y Gobernadores 2026 */
 :root {
-  /* Paleta cromática oficial de Adobe XD */
+  /* Paleta cromática oficial extraída directamente del prototipo Adobe XD */
   --bg-dark: #040d16;
   --bg-deep: #02070d;
-  --bg-card: #081528;
-  --bg-card-hover: #0c1e3a;
-  --bg-glass: rgba(8, 21, 40, 0.78);
+  --bg-card: #070b19;
+  --bg-card-hover: #0e172d;
+  --bg-glass: rgba(0, 18, 36, 0.83);
+  --card-gradient: linear-gradient(135deg, rgba(0, 18, 36, 0.83) 0%, rgba(29, 31, 52, 0.53) 100%);
   
-  --primary-blue: #617cff;
+  /* Tonos Azules Canónicos de Adobe XD */
+  --primary-blue: #607cff;
   --primary-blue-hover: #4e6bff;
-  --primary-blue-glow: rgba(97, 124, 255, 0.35);
+  --primary-blue-glow: rgba(96, 124, 255, 0.33);
   
-  --accent-blue: #2563eb;
-  --accent-purple: #a191f4;
+  --accent-blue: #235ce7;
+  --accent-blue-hover: #17348d;
+  --accent-blue-light: #5e82e2;
+  --accent-purple: #a897f9;
   --accent-purple-light: #f3effc;
   
   --whatsapp-green: #25d366;
@@ -21,10 +25,10 @@
   --text-primary: #ffffff;
   --text-secondary: #cbd5e1;
   --text-muted: #8492a6;
-  --text-highlight: #617cff;
+  --text-highlight: #607cff;
   
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(97, 124, 255, 0.4);
+  --border-active: rgba(96, 124, 255, 0.4);
   
   /* Tipografías Oficiales del Prototipo Adobe XD */
   --font-onest: 'Onest', -apple-system, sans-serif;

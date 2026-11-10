@@ -658,9 +658,9 @@
 
 .carousel-next {
   right: -18px;
-  background-color: #617cff;
+  background-color: var(--primary-blue, #607cff);
   color: #ffffff;
-  box-shadow: 0 10px 24px rgba(97, 124, 255, 0.45);
+  box-shadow: 0 10px 24px rgba(96, 124, 255, 0.45);
 }
 
 .carousel-nav-btn:hover {
@@ -839,7 +839,7 @@
   font-family: 'Onest', sans-serif;
   font-size: 10px;
   font-weight: 700;
-  color: #2563eb;
+  color: var(--accent-blue, #235ce7);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   display: inline-flex;
@@ -855,7 +855,7 @@
 }
 
 .btn-trajectory:hover {
-  color: #1b3278;
+  color: var(--accent-blue-hover, #17348d);
 }
 
 /* =========================================================
@@ -1806,7 +1806,7 @@
 .registro-autocomplete-item:hover,
 .registro-autocomplete-item.active {
   background-color: #eff3ff;
-  color: #2563eb;
+  color: var(--accent-blue, #235ce7);
 }
 
 .registro-autocomplete-main {
@@ -1874,9 +1874,9 @@
 
 /* Estado de procesamiento con spinner fluido y pulsación sutil */
 .registro-submit-btn.is-submitting {
-  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   opacity: 0.92;
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 6px 20px rgba(35, 92, 231, 0.4);
   animation: btnPulseGlow 1.8s ease-in-out infinite;
 }
 
@@ -2104,7 +2104,7 @@
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
-  background: #2563eb;
+  background: var(--accent-blue, #235ce7);
   border: 2px solid rgba(255, 255, 255, 0.4);
   flex-shrink: 0;
 }
@@ -2158,7 +2158,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #2563eb;
+  color: var(--accent-blue, #235ce7);
   margin-bottom: 0.85rem;
 }
 
@@ -2170,14 +2170,14 @@
 
 .trajectory-item {
   padding-left: 1rem;
-  border-left: 2px solid #5874ff;
+  border-left: 2px solid var(--primary-blue, #607cff);
 }
 
 .trajectory-year {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #2563eb;
+  color: var(--accent-blue, #235ce7);
 }
 
 .trajectory-role {
