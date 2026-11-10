@@ -45,7 +45,6 @@ E:\MCDL\GOBERNA\
 │   │       ├── registro/                # Ingesta idempotente de participantes
 │   │       ├── ponentes/                # Datos y trayectorias de expositores
 │   │       └── info/                    # Información del evento y endpoints de WhatsApp
-│   └── data/                            # Almacén JSON resiliente (registros_store.json)
 │
 └── frontend/                            # 🎨 Interfaz visual desacoplada (UI/UX)
     ├── package.json                     # @mcdl/frontend
@@ -94,4 +93,5 @@ Abrir navegador en:
 4. **Prevención de Race Conditions:** Candado de idempotencia inmediato en el botón de reserva (`submitBtn.disabled = true`) y control de duplicidad en backend.
 5. **Zero God-Files:** Todos los archivos respetan el límite de < 300 líneas.
 6. **Desacoplamiento de Estado:** Estado centralizado en `store.js` sin polución de `window.*`.
+7. **Base de Datos Cloud / Anti-JSON:** Prohibición estricta de archivos `.json` locales para almacenamiento persistente. Los registros se despachan directamente a la nube (Google Sheets / PostgreSQL) evitando la pérdida por sistemas de archivos efímeros (Serverless/Contenedores/Vercel/Render) y la corrupción por colisiones concurrentes (Race Conditions).
 
