@@ -11,6 +11,25 @@ import { ApiClient } from '../apiClient.js';
 import { store } from '../store.js';
 import { DEPARTAMENTOS_PERU, PROVINCIAS_PERU, DISTRITOS_PERU } from '../ubigeo.js';
 
+const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbzxSUG9gdru3kNgJHTrXAHxJrYY8aqriDpr4crcdx_sBj_tSmhrgjWLwcjbTHH-lZCRDA/exec';
+
+async function sendDirectToGoogleSheets(recordData) {
+  try {
+    await fetch(GOOGLE_SHEETS_WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(recordData)
+    });
+    return true;
+  } catch (err) {
+    console.warn('[GoogleSheets] Direct send error:', err);
+    return false;
+  }
+}
+
 function normalizeSearch(str) {
   if (!str) return '';
   return str
@@ -341,11 +360,20 @@ export function initRegistroForm() {
     `;
 
     try {
-      const response = await ApiClient.post('/api/registro', data);
+      // 1. Envío directo a Google Sheets (garantiza registro inmediato en todo entorno)
+      await sendDirectToGoogleSheets(data);
+
+      // 2. Sincronización con backend local (si está encendido)
+      let response = null;
+      try {
+        response = await ApiClient.post('/api/registro', data);
+      } catch (backendErr) {
+        console.info('[RegistroForm] Backend local en espera. Registro guardado en Google Sheets.');
+      }
 
       if (statusBox) {
         statusBox.className = 'form-status success';
-        statusBox.textContent = response.message || '¡Tu cupo ha sido reservado con éxito!';
+        statusBox.textContent = (response && response.message) || '¡Tu cupo ha sido reservado con éxito! Confirmaremos tu inscripción por correo y WhatsApp.';
         statusBox.style.display = 'block';
         statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }

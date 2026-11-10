@@ -2,19 +2,15 @@
  * ============================================================================
  * GOOGLE APPS SCRIPT — REGISTRO FORO DE ALCALDES Y GOBERNADORES 2026 (GOBERNA)
  * ============================================================================
- * INSTRUCCIONES PASO A PASO:
- * 1. Abre tu hoja de cálculo en Google Sheets.
- * 2. En el menú superior, haz clic en "Extensiones" > "Apps Script".
- * 3. Borra cualquier código que aparezca y pega TODO este archivo.
- * 4. Haz clic en el ícono de Guardar (💾) y luego ejecuta la función
- *    "inicializarEncabezados" una vez (o deja que se cree sola al primer envío).
- * 5. Haz clic en el botón azul "Implementar" > "Nueva implementación".
- * 6. En "Selecciona el tipo" (⚙️), elige "Aplicación web".
- * 7. Configura:
- *    - Ejecutar como: "Yo" (tu cuenta de Google)
- *    - Quién tiene acceso: "Cualquier persona" (Importante para recibir del formulario)
- * 8. Haz clic en "Implementar", copia la URL de la aplicación web (termina en /exec)
- *    y pégala en GOOGLE_SHEETS_WEBHOOK_URL dentro de tu archivo .env o en index.html.
+ * INSTRUCCIONES:
+ * 1. En tu hoja de Google Sheets, ve a "Extensiones" > "Apps Script".
+ * 2. Borra el código actual y pega TODO este archivo.
+ * 3. Haz clic en Guardar (💾).
+ * 4. Haz clic en "Implementar" > "Gestionar implementaciones" (o "Nueva implementación")
+ *    - Tipo: Aplicación web
+ *    - Ejecutar como: "Yo"
+ *    - Quién tiene acceso: "Cualquier persona" (Anyone)
+ *    - Clic en "Implementar" (o "Guardar versión").
  * ============================================================================
  */
 
@@ -33,14 +29,9 @@ const HEADERS = [
   'Estado'
 ];
 
-/**
- * Ejecuta esta función manualmente desde el editor de Apps Script para crear
- * y dar formato a los encabezados inmediatamente, o se ejecutará sola al
- * recibir el primer registro desde "RESERVAR MI CUPO".
- */
 function inicializarEncabezados() {
   const sheet = obtenerOCrearHojaConEncabezados();
-  return 'Encabezados inicializados correctamente en la hoja: ' + sheet.getName();
+  return 'Encabezados inicializados correctamente en: ' + sheet.getName();
 }
 
 function obtenerOCrearHojaConEncabezados() {
@@ -88,11 +79,15 @@ function obtenerOCrearHojaConEncabezados() {
 }
 
 /**
- * Recibe los datos enviados desde el botón "RESERVAR MI CUPO" (POST)
+ * Recibe y guarda SIEMPRE cada registro enviado desde la web
  */
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
+  try {
+    lock.waitLock(10000);
+  } catch (err) {
+    // Si no obtiene lock, continúa para no perder la inserción
+  }
 
   try {
     const sheet = obtenerOCrearHojaConEncabezados();
@@ -110,35 +105,14 @@ function doPost(e) {
 
     const idRegistro = payload.id || ('REG-' + new Date().getTime().toString(36).toUpperCase());
     const fechaPeru = Utilities.formatDate(new Date(), 'America/Lima', 'dd/MM/yyyy HH:mm:ss');
-    const nuevoCorreo = String(payload.correo || '').trim().toLowerCase();
-    const nuevoWhatsapp = String(payload.whatsapp || '').replace(/\D/g, '');
-
-    // Verificación directa en la hoja de cálculo: si ya existe la fila en Google Sheets
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      const data = sheet.getRange(2, 1, lastRow - 1, 6).getValues();
-      for (let i = 0; i < data.length; i++) {
-        const rowWhatsapp = String(data[i][4] || '').replace(/\D/g, '');
-        const rowCorreo = String(data[i][5] || '').trim().toLowerCase();
-        if ((nuevoCorreo && rowCorreo === nuevoCorreo) || (nuevoWhatsapp && rowWhatsapp === nuevoWhatsapp)) {
-          return ContentService
-            .createTextOutput(JSON.stringify({
-              success: true,
-              alreadyRegistered: true,
-              message: 'Ya cuentas con un cupo registrado en la lista oficial. ¡Nos vemos en el Foro!',
-              id: data[i][0]
-            }))
-            .setMimeType(ContentService.MimeType.JSON);
-        }
-      }
-    }
+    const whatsappClean = String(payload.whatsapp || '').trim();
 
     const rowData = [
       idRegistro,
       fechaPeru,
       String(payload.nombre || '').trim(),
       String(payload.apellido || '').trim(),
-      "'" + String(payload.whatsapp || '').trim(), // Prefijo ' para conservar el + o ceros iniciales
+      "'" + whatsappClean, // Prefijo ' para conservar ceros o formato internacional
       String(payload.correo || '').trim(),
       String(payload.distrito || '').trim(),
       String(payload.provincia || '').trim(),
@@ -146,6 +120,7 @@ function doPost(e) {
       'RESERVADO'
     ];
 
+    // Guarda siempre la fila en la hoja de cálculo
     sheet.appendRow(rowData);
 
     return ContentService
@@ -164,21 +139,22 @@ function doPost(e) {
       }))
       .setMimeType(ContentService.MimeType.JSON);
   } finally {
-    lock.releaseLock();
+    try {
+      lock.releaseLock();
+    } catch (e) {}
   }
 }
 
 /**
- * Permite verificar el estado del Web App e inicializar encabezados al abrir la URL en el navegador
+ * Permite verificar el estado del Web App en el navegador
  */
 function doGet() {
   const sheet = obtenerOCrearHojaConEncabezados();
   return ContentService
     .createTextOutput(JSON.stringify({
       success: true,
-      message: 'Webhook de Google Sheets activo y encabezados listos en la hoja: ' + sheet.getName(),
+      message: 'Webhook de Google Sheets activo y encabezados listos en: ' + sheet.getName(),
       headers: HEADERS
     }))
     .setMimeType(ContentService.MimeType.JSON);
 }
-
