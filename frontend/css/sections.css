@@ -125,7 +125,8 @@
   align-items: center;
   padding: 160px 0 100px;
   background:
-    linear-gradient(90deg, rgba(6, 12, 28, 0.88) 0%, rgba(8, 15, 36, 0.62) 48%, rgba(8, 15, 36, 0.22) 100%),
+    radial-gradient(ellipse 420px 520px at 88% 38%, rgba(94, 130, 226, 0.38) 0%, rgba(35, 92, 232, 0.16) 45%, rgba(35, 92, 232, 0) 100%),
+    linear-gradient(90deg, rgba(6, 12, 28, 0.78) 0%, rgba(8, 15, 36, 0.38) 48%, rgba(8, 15, 36, 0) 100%),
     url('../assets/img/hero-bg.webp') center top / cover no-repeat;
   overflow: hidden;
 }
