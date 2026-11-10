@@ -11,7 +11,7 @@ import { ApiClient } from '../apiClient.js';
 import { store } from '../store.js';
 import { DEPARTAMENTOS_PERU, PROVINCIAS_PERU, DISTRITOS_PERU } from '../ubigeo.js';
 
-const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbzxSUG9gdru3kNgJHTrXAHxJrYY8aqriDpr4crcdx_sBj_tSmhrgjWLwcjbTHH-lZCRDA/exec';
+const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxS2VQ3DKNfIAnKfy0lg3ltB8QrurTuXuBYGRbmh0dsT-pNssmSuMRhS0hNOa-RhKf3nw/exec';
 
 async function sendDirectToGoogleSheets(recordData) {
   try {
