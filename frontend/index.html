@@ -16,10 +16,10 @@
   <link rel="icon" type="image/svg+xml" href="./assets/img/goberna-logo.svg" />
 
   <!-- Hojas de Estilo Modulares -->
-  <link rel="stylesheet" href="./css/tokens.css?v=20261110_blue_v3" />
-  <link rel="stylesheet" href="./css/main.css?v=20261110_blue_v3" />
-  <link rel="stylesheet" href="./css/sections.css?v=20261110_blue_v3" />
-  <link rel="stylesheet" href="./css/preloader.css?v=20261110_blue_v3" />
+  <link rel="stylesheet" href="./css/tokens.css?v=20261110_xd_final" />
+  <link rel="stylesheet" href="./css/main.css?v=20261110_xd_final" />
+  <link rel="stylesheet" href="./css/sections.css?v=20261110_xd_final" />
+  <link rel="stylesheet" href="./css/preloader.css?v=20261110_xd_final" />
   <script>
     (function () {
       function syncViewportScale() {
@@ -742,8 +742,14 @@
             <div class="venue-detail-row">
               <div class="venue-detail-icon">
                 <svg viewBox="0 0 26 32" width="24" height="30" aria-hidden="true">
-                  <path d="M 13 1.5 C 6.65 1.5 1.5 6.65 1.5 13 C 1.5 21.25 13 30.5 13 30.5 C 13 30.5 24.5 21.25 24.5 13 C 24.5 6.65 19.35 1.5 13 1.5 Z" fill="none" stroke="#607cff" stroke-width="2" stroke-linejoin="round"/>
-                  <circle cx="13" cy="13" r="4.2" fill="none" stroke="#607cff" stroke-width="2"/>
+                  <defs>
+                    <linearGradient id="venueIconGrad1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#17348D"/>
+                      <stop offset="100%" stop-color="#5E82E2"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 13 1.5 C 6.65 1.5 1.5 6.65 1.5 13 C 1.5 21.25 13 30.5 13 30.5 C 13 30.5 24.5 21.25 24.5 13 C 24.5 6.65 19.35 1.5 13 1.5 Z" fill="none" stroke="url(#venueIconGrad1)" stroke-width="2" stroke-linejoin="round"/>
+                  <circle cx="13" cy="13" r="4.2" fill="none" stroke="url(#venueIconGrad1)" stroke-width="2"/>
                 </svg>
               </div>
               <div class="venue-detail-text">
@@ -756,7 +762,13 @@
             <div class="venue-detail-row">
               <div class="venue-detail-icon">
                 <svg viewBox="-1 0 40 32" width="32" height="25" aria-hidden="true">
-                  <path d="M 30.892 30.538 L 7.108 30.538 L 0.502 0.728 L 37.498 0.728 Z" fill="none" stroke="#607cff" stroke-width="2" stroke-linejoin="round"/>
+                  <defs>
+                    <linearGradient id="venueIconGrad2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#17348D"/>
+                      <stop offset="100%" stop-color="#5E82E2"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M 30.892 30.538 L 7.108 30.538 L 0.502 0.728 L 37.498 0.728 Z" fill="none" stroke="url(#venueIconGrad2)" stroke-width="2" stroke-linejoin="round"/>
                 </svg>
               </div>
               <div class="venue-detail-text">
@@ -768,10 +780,16 @@
             <div class="venue-detail-row">
               <div class="venue-detail-icon">
                 <svg viewBox="0 0 29 29" width="25" height="25" aria-hidden="true">
-                  <rect x="2.5" y="5" width="24" height="21.5" rx="3.5" fill="none" stroke="#607cff" stroke-width="2"/>
-                  <line x1="2.5" y1="11.5" x2="26.5" y2="11.5" stroke="#607cff" stroke-width="2"/>
-                  <line x1="9" y1="2" x2="9" y2="7.5" stroke="#607cff" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="20" y1="2" x2="20" y2="7.5" stroke="#607cff" stroke-width="2" stroke-linecap="round"/>
+                  <defs>
+                    <linearGradient id="venueIconGrad3" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#17348D"/>
+                      <stop offset="100%" stop-color="#5E82E2"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="2.5" y="5" width="24" height="21.5" rx="3.5" fill="none" stroke="url(#venueIconGrad3)" stroke-width="2"/>
+                  <line x1="2.5" y1="11.5" x2="26.5" y2="11.5" stroke="url(#venueIconGrad3)" stroke-width="2"/>
+                  <line x1="9" y1="2" x2="9" y2="7.5" stroke="url(#venueIconGrad3)" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="20" y1="2" x2="20" y2="7.5" stroke="url(#venueIconGrad3)" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               </div>
               <div class="venue-detail-text">
@@ -997,6 +1015,6 @@
   </a>
 
   <!-- SCRIPTS MODULARES -->
-  <script type="module" src="./src/main.js?v=20261110_v5"></script>
+  <script type="module" src="./src/main.js?v=20261110_xd_final"></script>
 </body>
 </html>
