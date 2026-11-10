@@ -34,7 +34,7 @@
 .xd-tag-line {
   width: 48px;
   height: 1.5px;
-  background-color: #4d6bff;
+  background-color: var(--accent-blue-electric, #235ce7);
   display: inline-block;
   flex-shrink: 0;
 }
@@ -42,8 +42,8 @@
 .xd-tag-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 500;
-  color: #4d6bff;
+  font-weight: 600;
+  color: var(--accent-blue-electric, #235ce7);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -70,7 +70,7 @@
 
 .text-gradient,
 .xd-text-gradient {
-  background: linear-gradient(90deg, #3b63ff 0%, #7d79f2 100%);
+  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -78,7 +78,7 @@
 }
 
 .xd-text-gradient-light {
-  background: linear-gradient(90deg, #5874ff 0%, #a191f4 100%);
+  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -89,7 +89,7 @@
   width: 62px;
   height: 4px;
   border-radius: 4px;
-  background: linear-gradient(90deg, #3b63ff 0%, #8e84f5 100%);
+  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   margin-bottom: 1.65rem;
 }
 
@@ -147,7 +147,7 @@
 .hero-edition-line {
   width: 44px;
   height: 1.5px;
-  background-color: #5874ff;
+  background-color: var(--accent-blue-electric, #235ce7);
   display: inline-block;
   flex-shrink: 0;
 }
@@ -155,9 +155,9 @@
 .hero-edition-tag {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
-  color: #5874ff;
+  color: var(--accent-blue-electric, #235ce7);
   text-transform: uppercase;
 }
 
@@ -186,8 +186,8 @@
   min-width: 250px;
   padding: 0 2.8rem;
   border-radius: 32px;
-  background: linear-gradient(90deg, #9f8ff4 0%, #5874ff 100%);
-  color: #060e24;
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   font-weight: 700;
@@ -196,14 +196,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 28px rgba(88, 116, 255, 0.42);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 28px rgba(35, 92, 231, 0.42);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
 }
 
 .btn-hero-reg:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 34px rgba(88, 116, 255, 0.55);
-  color: #060e24;
+  background: linear-gradient(90deg, #1c42b0 0%, #607cff 100%);
+  box-shadow: 0 14px 34px rgba(35, 92, 231, 0.65);
+  color: #ffffff;
 }
 
 .btn-hero-prog {
@@ -225,12 +226,13 @@
   justify-content: center;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn-hero-prog:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #ffffff;
+  background: rgba(35, 92, 231, 0.15);
+  border-color: #607cff;
+  box-shadow: 0 8px 24px rgba(35, 92, 231, 0.35);
   transform: translateY(-2px);
 }
 
@@ -269,7 +271,7 @@
 }
 
 .publico-heading-blue {
-  color: #3b63ff;
+  color: var(--accent-blue-electric, #235ce7);
 }
 
 .publico-grid {
@@ -658,9 +660,9 @@
 
 .carousel-next {
   right: -18px;
-  background-color: var(--primary-blue, #607cff);
+  background-color: #617cff;
   color: #ffffff;
-  box-shadow: 0 10px 24px rgba(96, 124, 255, 0.45);
+  box-shadow: 0 10px 24px rgba(97, 124, 255, 0.45);
 }
 
 .carousel-nav-btn:hover {
@@ -839,7 +841,7 @@
   font-family: 'Onest', sans-serif;
   font-size: 10px;
   font-weight: 700;
-  color: var(--accent-blue, #235ce7);
+  color: var(--accent-blue-electric, #235ce7);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   display: inline-flex;
@@ -855,7 +857,7 @@
 }
 
 .btn-trajectory:hover {
-  color: var(--accent-blue-hover, #17348d);
+  color: var(--accent-blue-dark, #17348d);
 }
 
 /* =========================================================
@@ -880,7 +882,7 @@
 }
 
 .ejes-gradient-line {
-  background: linear-gradient(90deg, #5c7aff 0%, #8b80f9 55%, #a78bfa 100%);
+  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1080,9 +1082,9 @@
   justify-content: center;
   padding: 0.35rem 2.4rem;
   border-radius: 10px;
-  background: linear-gradient(90deg, #3b63ff 0%, #9f8ff4 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   transform: skewX(-10deg);
-  box-shadow: 0 12px 32px rgba(41, 85, 234, 0.45);
+  box-shadow: 0 12px 32px rgba(35, 92, 231, 0.45);
   margin: 0.2rem 0;
 }
 
@@ -1225,7 +1227,7 @@
   font-family: 'Onest', sans-serif;
   font-size: 13px;
   font-weight: 700;
-  color: #4d6bff;
+  color: var(--accent-blue-electric, #235ce7);
   text-transform: uppercase;
 }
 
@@ -1237,7 +1239,7 @@
   width: 20px;
   height: 20px;
   background: transparent;
-  color: #4d6bff;
+  color: var(--accent-blue-electric, #235ce7);
   font-size: 22px;
   font-weight: 400;
   line-height: 1;
@@ -1316,11 +1318,11 @@
   display: block;
 }
 
-/* Estado Activo (Gradiente Azul-Violeta como OCTUBRE - Abu Dabi en crop_07) */
+/* Estado Activo (Gradiente Azul Adobe XD #17348D a #5E82E2 como en Abu Dabi) */
 .ruta-pin-card.is-active {
-  background: linear-gradient(90deg, #3b63ff 0%, #9f8ff4 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   border-color: transparent;
-  box-shadow: 0 14px 32px rgba(59, 99, 255, 0.36);
+  box-shadow: 0 14px 32px rgba(35, 92, 231, 0.45);
 }
 
 .ruta-pin-card.is-active .ruta-pin-month {
@@ -1571,12 +1573,12 @@
 }
 
 .venue-word-nuevas {
-  color: rgb(58, 93, 235);
+  color: var(--accent-blue-electric, #235ce7);
   font-weight: 800;
 }
 
 .venue-word-conexiones {
-  background: linear-gradient(90deg, #5c7aff 0%, #8b80f9 55%, #a188f7 100%);
+  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1806,7 +1808,7 @@
 .registro-autocomplete-item:hover,
 .registro-autocomplete-item.active {
   background-color: #eff3ff;
-  color: var(--accent-blue, #235ce7);
+  color: #2563eb;
 }
 
 .registro-autocomplete-main {
@@ -1835,7 +1837,7 @@
   height: 52px;
   border-radius: 26px;
   border: none;
-  background: linear-gradient(90deg, #3b63ff 0%, #9f8ff4 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   background-size: 200% 100%;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
@@ -1848,7 +1850,7 @@
   justify-content: center;
   gap: 0.9rem;
   cursor: pointer;
-  box-shadow: 0 10px 26px rgba(59, 99, 255, 0.36);
+  box-shadow: 0 10px 26px rgba(35, 92, 231, 0.4);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               background 0.4s ease,
@@ -1859,8 +1861,10 @@
 
 .registro-submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(59, 99, 255, 0.5);
+  background: linear-gradient(90deg, #1c42b0 0%, #607cff 100%);
+  box-shadow: 0 14px 32px rgba(35, 92, 231, 0.6);
   background-position: right center;
+  color: #ffffff;
 }
 
 .registro-submit-btn:active {
@@ -1874,9 +1878,9 @@
 
 /* Estado de procesamiento con spinner fluido y pulsación sutil */
 .registro-submit-btn.is-submitting {
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #17348D 0%, #235ce7 100%);
   opacity: 0.92;
-  box-shadow: 0 6px 20px rgba(35, 92, 231, 0.4);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
   animation: btnPulseGlow 1.8s ease-in-out infinite;
 }
 
@@ -2104,7 +2108,7 @@
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
-  background: var(--accent-blue, #235ce7);
+  background: #2563eb;
   border: 2px solid rgba(255, 255, 255, 0.4);
   flex-shrink: 0;
 }
@@ -2158,7 +2162,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--accent-blue, #235ce7);
+  color: var(--accent-blue-electric, #235ce7);
   margin-bottom: 0.85rem;
 }
 
@@ -2170,14 +2174,14 @@
 
 .trajectory-item {
   padding-left: 1rem;
-  border-left: 2px solid var(--primary-blue, #607cff);
+  border-left: 2px solid var(--accent-blue-electric, #235ce7);
 }
 
 .trajectory-year {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: var(--accent-blue, #235ce7);
+  color: #2563eb;
 }
 
 .trajectory-role {

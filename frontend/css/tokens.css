@@ -1,23 +1,30 @@
 /* Design Tokens - Foro de Alcaldes y Gobernadores 2026 */
 :root {
-  /* Paleta cromática oficial extraída directamente del prototipo Adobe XD */
+  /* Paleta cromática oficial de Adobe XD */
   --bg-dark: #040d16;
   --bg-deep: #02070d;
-  --bg-card: #070b19;
-  --bg-card-hover: #0e172d;
-  --bg-glass: rgba(0, 18, 36, 0.83);
-  --card-gradient: linear-gradient(135deg, rgba(0, 18, 36, 0.83) 0%, rgba(29, 31, 52, 0.53) 100%);
+  --bg-card: #081528;
+  --bg-card-hover: #0c1e3a;
+  --bg-glass: rgba(8, 21, 40, 0.78);
   
-  /* Tonos Azules Canónicos de Adobe XD */
+  /* Azules Canónicos Oficiales de Adobe XD */
   --primary-blue: #607cff;
   --primary-blue-hover: #4e6bff;
-  --primary-blue-glow: rgba(96, 124, 255, 0.33);
+  --primary-blue-glow: rgba(96, 124, 255, 0.35);
   
+  --accent-blue-electric: #235ce7;
+  --accent-blue-dark: #17348d;
+  --accent-blue-royal: #5e82e2;
+  --accent-blue-slate: #4263c1;
   --accent-blue: #235ce7;
-  --accent-blue-hover: #17348d;
-  --accent-blue-light: #5e82e2;
-  --accent-purple: #a897f9;
-  --accent-purple-light: #f3effc;
+  
+  /* Gradiente Oficial de Botones de Adobe XD */
+  --btn-gradient-primary: linear-gradient(90deg, #17348d 0%, #5e82e2 100%);
+  --btn-gradient-hover: linear-gradient(90deg, #1c42b0 0%, #607cff 100%);
+  --btn-shadow: 0 10px 28px rgba(35, 92, 231, 0.42);
+  --btn-shadow-hover: 0 14px 34px rgba(35, 92, 231, 0.65);
+  
+  --text-gradient-blue: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
   
   --whatsapp-green: #25d366;
   --whatsapp-dark: #128c7e;
@@ -25,7 +32,7 @@
   --text-primary: #ffffff;
   --text-secondary: #cbd5e1;
   --text-muted: #8492a6;
-  --text-highlight: #607cff;
+  --text-highlight: #235ce7;
   
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-active: rgba(96, 124, 255, 0.4);
@@ -47,7 +54,7 @@
   --radius-full: 9999px;
   
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --shadow-glow: 0 0 35px rgba(97, 124, 255, 0.25);
+  --shadow-glow: 0 0 35px rgba(96, 124, 255, 0.25);
   --shadow-whatsapp: 0 10px 25px rgba(37, 211, 102, 0.4);
   
   --transition-smooth: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);

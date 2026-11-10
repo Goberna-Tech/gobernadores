@@ -33,7 +33,7 @@
   height: 164px;
   border-radius: 50%;
   border: 2.5px solid transparent;
-  border-top-color: var(--primary-blue, #607cff);
+  border-top-color: #607cff;
   border-right-color: rgba(96, 124, 255, 0.4);
   animation: spin 0.9s linear infinite;
 }
