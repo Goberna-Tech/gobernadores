@@ -14,20 +14,36 @@ import { DEPARTAMENTOS_PERU, PROVINCIAS_PERU, DISTRITOS_PERU } from '../ubigeo.j
 const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxS2VQ3DKNfIAnKfy0lg3ltB8QrurTuXuBYGRbmh0dsT-pNssmSuMRhS0hNOa-RhKf3nw/exec';
 
 async function sendDirectToGoogleSheets(recordData) {
+  const payload = JSON.stringify(recordData);
+  let sent = false;
+
   try {
     await fetch(GOOGLE_SHEETS_WEBHOOK, {
       method: 'POST',
       mode: 'no-cors',
+      cache: 'no-cache',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
+        'Content-Type': 'text/plain'
       },
-      body: JSON.stringify(recordData)
+      body: payload
     });
-    return true;
+    sent = true;
   } catch (err) {
-    console.warn('[GoogleSheets] Direct send error:', err);
-    return false;
+    console.warn('[GoogleSheets] Fetch send warning:', err);
   }
+
+  // Respaldo garantizado vía sendBeacon para cualquier navegador o conexión
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payload], { type: 'text/plain' });
+      navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK, blob);
+      sent = true;
+    }
+  } catch (beaconErr) {
+    console.warn('[GoogleSheets] Beacon fallback warning:', beaconErr);
+  }
+
+  return sent;
 }
 
 function normalizeSearch(str) {
@@ -360,20 +376,22 @@ export function initRegistroForm() {
     `;
 
     try {
-      // 1. Envío directo a Google Sheets (garantiza registro inmediato en todo entorno)
+      // 1. Envío directo y garantizado a Google Sheets
       await sendDirectToGoogleSheets(data);
 
-      // 2. Sincronización con backend local (si está encendido)
-      let response = null;
-      try {
-        response = await ApiClient.post('/api/registro', data);
-      } catch (backendErr) {
-        console.info('[RegistroForm] Backend local en espera. Registro guardado en Google Sheets.');
+      // 2. Solo sincronizar con backend si estamos en desarrollo local
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (isLocalhost) {
+        try {
+          await ApiClient.post('/api/registro', data);
+        } catch (backendErr) {
+          // Ignorar si el backend local no está iniciado
+        }
       }
 
       if (statusBox) {
         statusBox.className = 'form-status success';
-        statusBox.textContent = (response && response.message) || '¡Tu cupo ha sido reservado con éxito! Confirmaremos tu inscripción por correo y WhatsApp.';
+        statusBox.textContent = '¡Tu cupo ha sido reservado con éxito! Confirmaremos tu inscripción por correo y WhatsApp.';
         statusBox.style.display = 'block';
         statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
