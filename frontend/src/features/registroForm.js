@@ -15,7 +15,6 @@ const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxS2VQ3DK
 
 async function sendDirectToGoogleSheets(recordData) {
   const payload = JSON.stringify(recordData);
-  let sent = false;
 
   try {
     await fetch(GOOGLE_SHEETS_WEBHOOK, {
@@ -27,23 +26,20 @@ async function sendDirectToGoogleSheets(recordData) {
       },
       body: payload
     });
-    sent = true;
+    return true;
   } catch (err) {
-    console.warn('[GoogleSheets] Fetch send warning:', err);
-  }
-
-  // Respaldo garantizado vía sendBeacon para cualquier navegador o conexión
-  try {
-    if (navigator.sendBeacon) {
-      const blob = new Blob([payload], { type: 'text/plain' });
-      navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK, blob);
-      sent = true;
+    console.warn('[GoogleSheets] Fetch falló, usando sendBeacon de contingencia:', err);
+    // Solo si fetch falla por red o política de navegador, se usa sendBeacon
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: 'text/plain' });
+        return navigator.sendBeacon(GOOGLE_SHEETS_WEBHOOK, blob);
+      }
+    } catch (beaconErr) {
+      console.warn('[GoogleSheets] Beacon fallback warning:', beaconErr);
     }
-  } catch (beaconErr) {
-    console.warn('[GoogleSheets] Beacon fallback warning:', beaconErr);
+    return false;
   }
-
-  return sent;
 }
 
 function normalizeSearch(str) {

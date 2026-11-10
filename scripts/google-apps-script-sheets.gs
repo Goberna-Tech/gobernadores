@@ -6,11 +6,9 @@
  * 1. En tu hoja de Google Sheets, ve a "Extensiones" > "Apps Script".
  * 2. Borra el código actual y pega TODO este archivo.
  * 3. Haz clic en Guardar (💾).
- * 4. Haz clic en "Implementar" > "Gestionar implementaciones" (o "Nueva implementación")
- *    - Tipo: Aplicación web
- *    - Ejecutar como: "Yo"
- *    - Quién tiene acceso: "Cualquier persona" (Anyone)
- *    - Clic en "Implementar" (o "Guardar versión").
+ * 4. Haz clic en "Implementar" > "Gestionar implementaciones" > Edita (icono lápiz)
+ *    - Versión: "Nueva versión"
+ *    - Clic en "Implementar".
  * ============================================================================
  */
 
@@ -79,15 +77,13 @@ function obtenerOCrearHojaConEncabezados() {
 }
 
 /**
- * Recibe y guarda SIEMPRE cada registro enviado desde la web
+ * Recibe y procesa los registros con PREVENCIÓN ESTRICTA DE DUPLICADOS
  */
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(10000);
-  } catch (err) {
-    // Si no obtiene lock, continúa para no perder la inserción
-  }
+  } catch (err) {}
 
   try {
     const sheet = obtenerOCrearHojaConEncabezados();
@@ -106,13 +102,50 @@ function doPost(e) {
     const idRegistro = payload.id || ('REG-' + new Date().getTime().toString(36).toUpperCase());
     const fechaPeru = Utilities.formatDate(new Date(), 'America/Lima', 'dd/MM/yyyy HH:mm:ss');
     const whatsappClean = String(payload.whatsapp || '').trim();
+    const whatsappDigits = whatsappClean.replace(/\D/g, '');
+    const correoNorm = String(payload.correo || '').trim().toLowerCase();
 
+    // ========================================================================
+    // CONTROL ANTI-DUPLICADOS: Si el WhatsApp o Correo ya existen, NO duplicar
+    // ========================================================================
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 1) {
+      const data = sheet.getRange(2, 1, lastRow - 1, 6).getValues();
+
+      for (let i = 0; i < data.length; i++) {
+        const rowWhatsapp = String(data[i][4] || '').replace(/\D/g, '');
+        const rowCorreo = String(data[i][5] || '').trim().toLowerCase();
+
+        const matchWhatsapp = whatsappDigits && rowWhatsapp && (whatsappDigits === rowWhatsapp);
+        const matchCorreo = correoNorm && rowCorreo && (correoNorm === rowCorreo);
+
+        if (matchWhatsapp || matchCorreo) {
+          // Registro duplicado detectado: Se actualiza la fila existente en lugar de crear una nueva
+          const filaExistente = i + 2;
+          sheet.getRange(filaExistente, 2).setValue(fechaPeru); // Actualiza última interacción
+          sheet.getRange(filaExistente, 7).setValue(String(payload.distrito || '').trim());
+          sheet.getRange(filaExistente, 8).setValue(String(payload.provincia || '').trim());
+          sheet.getRange(filaExistente, 9).setValue(String(payload.cargo || '').trim());
+
+          return ContentService
+            .createTextOutput(JSON.stringify({
+              success: true,
+              alreadyRegistered: true,
+              message: '¡Tu registro ya se encontraba en la lista oficial y fue actualizado!',
+              id: data[i][0]
+            }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+    }
+
+    // Si no está duplicado, se inserta la nueva fila
     const rowData = [
       idRegistro,
       fechaPeru,
       String(payload.nombre || '').trim(),
       String(payload.apellido || '').trim(),
-      "'" + whatsappClean, // Prefijo ' para conservar ceros o formato internacional
+      "'" + whatsappClean,
       String(payload.correo || '').trim(),
       String(payload.distrito || '').trim(),
       String(payload.provincia || '').trim(),
@@ -120,7 +153,6 @@ function doPost(e) {
       'RESERVADO'
     ];
 
-    // Guarda siempre la fila en la hoja de cálculo
     sheet.appendRow(rowData);
 
     return ContentService
@@ -135,7 +167,7 @@ function doPost(e) {
     return ContentService
       .createTextOutput(JSON.stringify({
         success: false,
-        message: 'Error al guardar en Google Sheets: ' + error.toString()
+        message: 'Error al procesar registro: ' + error.toString()
       }))
       .setMimeType(ContentService.MimeType.JSON);
   } finally {
@@ -145,9 +177,6 @@ function doPost(e) {
   }
 }
 
-/**
- * Permite verificar el estado del Web App en el navegador
- */
 function doGet() {
   const sheet = obtenerOCrearHojaConEncabezados();
   return ContentService
