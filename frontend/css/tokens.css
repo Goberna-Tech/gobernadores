@@ -19,13 +19,13 @@
   --accent-blue: #235ce7;
   
   /* Gradiente Oficial de Botones y Textos de Adobe XD (#17348D -> #5E82E2) */
-  --btn-gradient-primary: linear-gradient(90deg, #17348d 0%, #5e82e2 100%);
+  --btn-gradient-primary: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   --btn-gradient-hover: linear-gradient(90deg, #1c42b0 0%, #607cff 100%);
   --btn-shadow: 0 10px 28px rgba(35, 92, 231, 0.42);
   --btn-shadow-hover: 0 14px 34px rgba(35, 92, 231, 0.65);
   
-  --text-gradient-blue: linear-gradient(90deg, #17348d 0%, #5e82e2 100%);
-  --text-gradient-light: linear-gradient(90deg, #235ce8 0%, #5e82e2 100%);
+  --text-gradient-blue: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
+  --text-gradient-light: linear-gradient(90deg, #5E82E2 0%, #235CE8 100%);
   
   --whatsapp-green: #25d366;
   --whatsapp-dark: #128c7e;

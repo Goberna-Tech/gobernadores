@@ -70,7 +70,7 @@
 
 .text-gradient,
 .xd-text-gradient {
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -78,7 +78,7 @@
 }
 
 .xd-text-gradient-light {
-  background: linear-gradient(90deg, #235CE8 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #235CE8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -89,7 +89,7 @@
   width: 62px;
   height: 4px;
   border-radius: 4px;
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   margin-bottom: 1.65rem;
 }
 
@@ -157,7 +157,7 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: var(--accent-blue-electric, #235ce7);
+  color: #235CE8;
   text-transform: uppercase;
 }
 
@@ -186,7 +186,7 @@
   min-width: 250px;
   padding: 0 2.8rem;
   border-radius: 32px;
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
@@ -271,7 +271,7 @@
 }
 
 .publico-heading-blue {
-  background: linear-gradient(90deg, #235CE8 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #235CE8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -712,6 +712,7 @@
 }
 
 .speaker-frame-bg {
+  filter: hue-rotate(-24deg) saturate(1.1) brightness(1.08);
   position: absolute;
   inset: 0;
   width: 100%;
@@ -792,7 +793,7 @@
   padding: 0 18px;
   height: 35px;
   margin-left: 16px;
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   border-radius: 6px;
   transform: skewX(-22deg);
   display: inline-flex;
@@ -888,7 +889,7 @@
 }
 
 .ejes-gradient-line {
-  background: linear-gradient(90deg, #235CE8 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #235CE8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -930,7 +931,7 @@
 }
 
 .eje-accordion-card {
-  background: #05348d;
+  background: rgba(5, 52, 141, 0.28);
   border: 1px solid rgba(96, 124, 255, 0.33);
   border-radius: 14px;
   overflow: hidden;
@@ -940,7 +941,7 @@
 }
 
 .eje-accordion-card.is-open {
-  background: #4872c1;
+  background: rgba(72, 114, 193, 0.22);
   border-color: #235ce8;
   box-shadow: 0 18px 45px rgba(5, 52, 141, 0.45);
 }
@@ -1094,7 +1095,7 @@
   justify-content: center;
   padding: 0.35rem 2.4rem;
   border-radius: 10px;
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   transform: skewX(-10deg);
   box-shadow: 0 12px 32px rgba(35, 92, 231, 0.45);
   margin: 0.2rem 0;
@@ -1332,7 +1333,7 @@
 
 /* Estado Activo (Gradiente Azul Adobe XD #17348D a #5E82E2 como en Abu Dabi) */
 .ruta-pin-card.is-active {
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   border-color: transparent;
   box-shadow: 0 14px 32px rgba(35, 92, 231, 0.45);
 }
@@ -1585,7 +1586,7 @@
 }
 
 .venue-word-nuevas {
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1595,7 +1596,7 @@
 }
 
 .venue-word-conexiones {
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1852,7 +1853,7 @@
   height: 52px;
   border-radius: 26px;
   border: none;
-  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   background-size: 200% 100%;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
@@ -1893,7 +1894,7 @@
 
 /* Estado de procesamiento con spinner fluido y pulsación sutil */
 .registro-submit-btn.is-submitting {
-  background: linear-gradient(90deg, #17348D 0%, #235ce7 100%);
+  background: linear-gradient(90deg, #5E82E2 0%, #17348D 100%);
   opacity: 0.92;
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
   animation: btnPulseGlow 1.8s ease-in-out infinite;
