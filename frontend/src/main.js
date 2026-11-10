@@ -7,7 +7,7 @@ import { ApiClient } from './apiClient.js';
 import { initPreloader } from './features/preloader.js';
 import { initWhatsApp } from './features/whatsapp.js';
 import { initSpeakers } from './features/speakers.js';
-import { initRegistroForm } from './features/registroForm.js?v=20261110_v3';
+import { initRegistroForm } from './features/registroForm.js?v=20261110_v4';
 
 const MISSIONS_DATA = {
   miami: {
