@@ -70,7 +70,7 @@
 
 .text-gradient,
 .xd-text-gradient {
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -78,7 +78,7 @@
 }
 
 .xd-text-gradient-light {
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #235CE8 0%, #5E82E2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -89,7 +89,7 @@
   width: 62px;
   height: 4px;
   border-radius: 4px;
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   margin-bottom: 1.65rem;
 }
 
@@ -271,7 +271,12 @@
 }
 
 .publico-heading-blue {
-  color: var(--accent-blue-electric, #235ce7);
+  background: linear-gradient(90deg, #235CE8 0%, #5E82E2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline;
 }
 
 .publico-grid {
@@ -882,7 +887,7 @@
 }
 
 .ejes-gradient-line {
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #235CE8 0%, #5E82E2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1578,7 +1583,7 @@
 }
 
 .venue-word-conexiones {
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

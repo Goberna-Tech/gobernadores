@@ -157,7 +157,7 @@ img {
   left: 0;
   width: 0%;
   height: 1.5px;
-  background: linear-gradient(90deg, #235ce7 0%, #607cff 100%);
+  background: linear-gradient(90deg, #17348D 0%, #5E82E2 100%);
   transition: width 0.25s ease;
 }
 
