@@ -2411,7 +2411,8 @@
 
   .hero {
     padding: 108px 0 56px;
-    background-position: 68% top;
+    background-position: 65% center;
+    background-size: cover;
   }
 
   .hero-edition-line {
