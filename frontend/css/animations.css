@@ -1,0 +1,1738 @@
+/* ============================================================================
+   animations.css — Sistema de Animaciones de Scroll, Coreografía y Transiciones
+   Basado en E:\GUIA\REPOSITORIOS (skills-main, motion, scroll-world, animate.css)
+   100% GPU Composite (transform & opacity) - 120 FPS
+   ============================================================================ */
+
+:root {
+  --gob-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --gob-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --gob-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --gob-dur-lead: 720ms;
+  --gob-dur-support: 580ms;
+  --gob-dur-fast: 220ms;
+}
+
+/* 1. Barra de Progreso de Scroll Superior (scroll-world engine) */
+.gob-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 10005;
+  background: rgba(96, 124, 255, 0.14);
+  pointer-events: none;
+}
+
+.gob-scroll-progress__bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #5E82E2 0%, #235CE8 55%, #5FFC7B 100%);
+  box-shadow: 0 0 12px rgba(96, 124, 255, 0.75);
+  will-change: transform;
+}
+
+/* 2. Indicador activo de sección en el Navbar */
+.nav-link.is-active-section {
+  color: #ffffff;
+}
+
+.nav-link.is-active-section::after {
+  width: 100%;
+  background: linear-gradient(90deg, #5E82E2 0%, #607cff 100%);
+  box-shadow: 0 0 8px rgba(96, 124, 255, 0.65);
+}
+
+/* 3. Coreografía de Reveal al hacer Scroll (Step-by-step Wave) - 100% Nítida sin blur */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .gob-reveal {
+    opacity: 0;
+    transition:
+      opacity var(--gob-dur-support) var(--gob-ease-out),
+      transform var(--gob-dur-lead) var(--gob-ease-out);
+    transition-delay: var(--gob-delay, 0ms);
+  }
+
+  /* Lead: Títulos principales */
+  .gob-reveal[data-gob-effect="lead-up"] {
+    transform: translate3d(0, 28px, 0);
+  }
+
+  /* Support: Subtítulos y párrafos */
+  .gob-reveal[data-gob-effect="support-up"],
+  .gob-reveal[data-gob-effect="fade-up"] {
+    transform: translate3d(0, 18px, 0);
+  }
+
+  /* Etiquetas laterales */
+  .gob-reveal[data-gob-effect="fade-right"] {
+    transform: translate3d(-22px, 0, 0);
+  }
+
+  /* Tarjetas o bloques desde la derecha */
+  .gob-reveal[data-gob-effect="fade-left"],
+  .gob-reveal[data-gob-effect="card-left"] {
+    transform: translate3d(28px, 0, 0);
+  }
+
+  /* Tarjetas principales con elevación sutil (sin scale para evitar re-rasterizado borroso en Chromium) */
+  .gob-reveal[data-gob-effect="card-up"] {
+    transform: translate3d(0, 28px, 0);
+  }
+
+  /* Píldoras y pines del mapa */
+  .gob-reveal[data-gob-effect="pill-pop"],
+  .gob-reveal[data-gob-effect="pin-pop"] {
+    transform: translate3d(0, 16px, 0);
+  }
+
+  /* Filas de beneficios y detalles de sede */
+  .gob-reveal[data-gob-effect="row-slide"] {
+    transform: translate3d(22px, 0, 0);
+  }
+
+  /* Escenarios amplios (Carrusel, Mapa, Tarjeta Registro) */
+  .gob-reveal[data-gob-effect="scale-up"] {
+    transform: translate3d(0, 24px, 0);
+  }
+
+  /* Barras decorativas de títulos */
+  .gob-reveal[data-gob-effect="bar-grow"] {
+    transform: scaleX(0.15);
+    transform-origin: left center;
+  }
+
+  .xd-title-bar--center.gob-reveal[data-gob-effect="bar-grow"] {
+    transform-origin: center center;
+  }
+
+  /* Líneas divisorias verticales */
+  .gob-reveal[data-gob-effect="divider-grow"] {
+    transform: scaleY(0.1);
+    transform-origin: top center;
+  }
+
+  /* Línea conectora vertical de 03 • Beneficios que baja progresivamente conectando las 4 cajas */
+  .gob-reveal[data-gob-effect="timeline-grow"] {
+    transform: scaleY(0);
+    transform-origin: top center;
+    transition:
+      transform 1050ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 400ms ease;
+    transition-delay: var(--gob-delay, 140ms);
+  }
+
+  /* Giro suave de entrada para el asterisco Goberna de 06 • Sede */
+  .gob-reveal[data-gob-effect="asterisk-spin"] {
+    transform: rotate(-28deg) scale(0.84);
+    transition:
+      transform 720ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      opacity 500ms var(--gob-ease-out);
+    transition-delay: var(--gob-delay, 120ms);
+  }
+
+  /* Despertar elástico de cada caja de icono en Beneficios cuando la línea vertical la alcanza */
+  .beneficio-row.gob-reveal .beneficio-icon-box {
+    transform: scale(0.76);
+    opacity: 0;
+    transition:
+      transform 520ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      opacity 380ms ease,
+      box-shadow 320ms ease,
+      border-color 320ms ease;
+    transition-delay: var(--gob-delay, 180ms);
+  }
+
+  .beneficio-row.gob-reveal.is-inview .beneficio-icon-box {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  /* Dibujo trazo por trazo (`stroke-dashoffset`) en los íconos SVG de 01 • Público Objetivo y 06 • Sede */
+  .gob-svg-stroke {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--gob-delay, 140ms) + var(--stroke-delay, 100ms));
+  }
+
+  .publico-item.is-inview .gob-svg-stroke,
+  .venue-detail-row.is-inview .gob-svg-stroke {
+    stroke-dashoffset: 0;
+  }
+
+  /* Línea superior azul de cada columna en 01 • Público Objetivo se traza de izquierda a derecha */
+  .publico-item.gob-reveal .publico-top-line {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+      transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 320ms ease;
+    transition-delay: var(--gob-delay, 140ms);
+  }
+
+  .publico-item.gob-reveal.is-inview .publico-top-line {
+    transform: scaleX(1);
+  }
+
+  /* Badge inclinado del banner de financiamiento */
+  .gob-reveal[data-gob-effect="badge-skew-pop"] {
+    transform: skewX(-10deg) translate3d(-24px, 16px, 0) scale(0.88);
+    transition:
+      transform 640ms cubic-bezier(0.175, 0.885, 0.32, 1.25),
+      opacity 450ms var(--gob-ease-out);
+  }
+
+  /* Estado visible cuando entra al viewport (transform: none y transition-delay: 0ms al reposo para que cualquier hover sea inmediato y 100% nítido sin borrosidad temporal) */
+  .gob-reveal.is-inview {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0ms;
+  }
+
+  .gob-reveal[data-gob-effect="badge-skew-pop"].is-inview {
+    transform: skewX(-10deg) translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* 4. Transición suave de Acordeón en Ejes Temáticos ("Tres desafíos") y rotación de sus flechas */
+.eje-accordion-card {
+  transition:
+    background-color 0.38s var(--gob-ease-out),
+    border-color 0.38s var(--gob-ease-out),
+    box-shadow 0.38s var(--gob-ease-out),
+    transform 0.32s var(--gob-ease-out);
+}
+
+.eje-accordion-card:hover {
+  transform: translate3d(4px, 0, 0);
+}
+
+.eje-accordion-card.is-open {
+  transform: translate3d(0, -2px, 0);
+}
+
+.eje-accordion-card .eje-circle-btn {
+  transition:
+    background-color 0.36s var(--gob-ease-out),
+    border-color 0.36s var(--gob-ease-out),
+    color 0.36s var(--gob-ease-out),
+    transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.36s var(--gob-ease-out);
+}
+
+.eje-accordion-card:hover .eje-circle-btn {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(35, 92, 231, 0.45);
+}
+
+.eje-accordion-card.is-open .eje-circle-btn {
+  transform: scale(1.06);
+  box-shadow: 0 6px 18px rgba(35, 92, 231, 0.5);
+}
+
+.eje-accordion-card .eje-circle-btn svg {
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: rotate(0deg);
+  transform-origin: center center;
+}
+
+.eje-accordion-card:not(.is-open):hover .eje-circle-btn svg {
+  transform: translate3d(2px, 0, 0);
+}
+
+.eje-accordion-card.is-open .eje-circle-btn svg {
+  transform: rotate(90deg);
+}
+
+/* Expansión y cierre fluido del cuerpo del cuadro con CSS Grid (0fr -> 1fr) sin cortes secos */
+.eje-accordion-card .eje-accordion-body {
+  display: grid !important;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  padding: 0 2.2rem 0 !important;
+  overflow: hidden;
+  transition:
+    grid-template-rows 0.44s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.34s var(--gob-ease-out),
+    padding 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.eje-accordion-card .eje-accordion-body > .eje-divider {
+  display: none;
+}
+
+.eje-accordion-card .eje-accordion-body > .eje-body-inner {
+  min-height: 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(96, 124, 255, 0.33);
+  padding-top: 0;
+  transform: translate3d(0, -10px, 0);
+  opacity: 0;
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.34s var(--gob-ease-out),
+    padding-top 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.eje-accordion-card.is-open .eje-accordion-body {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  padding: 0 2.2rem 1.85rem !important;
+}
+
+.eje-accordion-card.is-open .eje-accordion-body > .eje-body-inner {
+  padding-top: 1.35rem;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .eje-accordion-card .eje-accordion-body {
+    padding: 0 1.25rem 0 !important;
+  }
+  .eje-accordion-card.is-open .eje-accordion-body {
+    padding: 0 1.25rem 1.4rem !important;
+  }
+}
+
+/* 5. Micro-interacciones de Tarjetas, Píldoras, Botones y Ponentes (Apple & Emil Kowalski) */
+@media (hover: hover) and (pointer: fine) {
+  .publico-item {
+    transition: transform 0.32s var(--gob-ease-out);
+  }
+  .publico-item:hover {
+    transform: translateY(-6px);
+  }
+  .publico-item .publico-top-line {
+    transition: background-color 0.32s var(--gob-ease-out), transform 0.38s var(--gob-ease-out);
+    transform-origin: left center;
+  }
+  .publico-item:hover .publico-top-line {
+    background-color: #607cff;
+    transform: scaleX(1.03);
+  }
+  .publico-item .publico-svg-icon {
+    transition: transform 0.32s var(--gob-ease-out);
+  }
+  .publico-item:hover .publico-svg-icon {
+    transform: translateY(-3px);
+  }
+
+  .presentacion-pill {
+    transition:
+      transform 0.28s var(--gob-ease-out),
+      box-shadow 0.28s var(--gob-ease-out),
+      border-color 0.28s var(--gob-ease-out),
+      background-color 0.28s var(--gob-ease-out);
+  }
+  .presentacion-pill:hover {
+    transform: translateY(-4px);
+    border-color: #235ce8;
+    background-color: #e4e9fb;
+    box-shadow: 0 12px 26px rgba(35, 92, 231, 0.16);
+  }
+  .presentacion-pill-icon svg {
+    transition: transform 0.32s var(--gob-ease-out);
+  }
+  .presentacion-pill:hover .presentacion-pill-icon svg {
+    transform: translateY(-2px);
+  }
+
+  .beneficio-row {
+    transition: transform 0.28s var(--gob-ease-out);
+  }
+  .beneficio-row:hover {
+    transform: translateX(6px);
+  }
+  .beneficio-icon-box {
+    transition:
+      transform 0.28s var(--gob-ease-out),
+      box-shadow 0.28s var(--gob-ease-out),
+      border-color 0.28s var(--gob-ease-out),
+      background-color 0.28s var(--gob-ease-out);
+  }
+  .beneficio-row:hover .beneficio-icon-box {
+    transform: translateY(-2px);
+    border-color: #235ce8;
+    background-color: #e5eafc;
+    box-shadow: 0 10px 24px rgba(35, 92, 231, 0.18);
+  }
+
+  .speaker-card-xd {
+    transition: transform 0.26s var(--gob-ease-out);
+  }
+  .speaker-card-xd:hover {
+    transform: translateY(-6px);
+  }
+  .speaker-person-img {
+    transition: transform 0.28s var(--gob-ease-out);
+  }
+  .speaker-card-xd:hover .speaker-person-img {
+    transform: scale(1.03);
+  }
+  .btn-trajectory svg {
+    transition: transform 0.22s var(--gob-ease-out);
+  }
+  .btn-trajectory:hover svg {
+    transform: translate3d(3px, 0, 0);
+  }
+
+  .venue-detail-row {
+    transition: transform 0.26s var(--gob-ease-out);
+  }
+  .venue-detail-row:hover {
+    transform: translate3d(5px, 0, 0);
+  }
+}
+
+/* Respuesta física inmediata al presionar cualquier botón (Apple Design rule 1) */
+.btn:active,
+.btn-hero-reg:active,
+.btn-hero-prog:active,
+.ruta-pin-card:active {
+  transform: scale(0.97);
+  transition-duration: 100ms;
+}
+
+/* Mantener translateY(-50%) intacto en las flechas del carrusel para que nunca salten al hacer clic */
+.carousel-nav-btn:active {
+  transform: translateY(-50%) scale(0.94);
+  transition-duration: 90ms;
+}
+
+/* 6. Modal con transición suave de apertura y entrada en cascada de hitos de trayectoria */
+.modal-backdrop.active {
+  animation: gobBackdropFade 0.25s var(--gob-ease-out) both;
+}
+
+.modal-backdrop.active .modal-card {
+  animation: gobModalPop 0.34s var(--gob-ease-out) both;
+}
+
+.modal-backdrop.active .trajectory-item {
+  animation: gobTrajectoryCascade 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--traj-delay, 80ms);
+}
+
+@keyframes gobTrajectoryCascade {
+  from {
+    opacity: 0;
+    transform: translate3d(-14px, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Micro-interacción reactiva en los campos existentes de 07 • Registro */
+.registro-input-icon {
+  transition:
+    color 0.26s var(--gob-ease-out),
+    transform 0.34s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.registro-field.is-focused .registro-input-icon {
+  color: #235ce7;
+  transform: scale(1.16) translate3d(0, -1px, 0);
+}
+
+.registro-field.has-value:not(.is-focused) .registro-input-icon {
+  color: #235ce7;
+}
+
+.registro-label {
+  transition: color 0.22s ease, transform 0.22s var(--gob-ease-out);
+  transform-origin: left center;
+}
+
+.registro-field.is-focused .registro-label {
+  color: #235ce7;
+}
+
+@keyframes gobBackdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gobModalPop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* 7. Coreografía Punto por Punto en el Mapa de Ruta Internacional (Un único trazado animado sobre mapa limpio) */
+.ruta-map-img-wrap {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.ruta-route-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.ruta-node-tag {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .ruta-map-img-wrap {
+    grid-column: 1 / -1;
+    margin-bottom: 0.5rem;
+  }
+
+  .ruta-node {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .ruta-node-tag {
+    display: block;
+  }
+
+  .ruta-node-tag-bg {
+    fill: #ffffff;
+    stroke: #8a9edb;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 4px 8px rgba(8, 18, 41, 0.16));
+    transition: fill 240ms ease, stroke 240ms ease;
+  }
+
+  .ruta-node-tag-text {
+    font-family: 'Onest', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    fill: #081229;
+    transition: fill 240ms ease;
+  }
+
+  .ruta-node.is-selected-node .ruta-node-tag-bg {
+    fill: #235ce8;
+    stroke: #ffffff;
+  }
+
+  .ruta-node.is-selected-node .ruta-node-tag-text {
+    fill: #ffffff;
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* Mapa punteado de continentes entra suave */
+  .ruta-map-canvas .ruta-map-img {
+    opacity: 0;
+    transform: scale(0.985);
+    transition:
+      opacity 550ms var(--gob-ease-out),
+      transform 650ms var(--gob-ease-out);
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-map-img {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Nodos luminosos del mapa (Punto 1 -> Punto 2 -> Punto 3 -> Punto 4) */
+  .ruta-node {
+    opacity: 0;
+  }
+
+  .ruta-node-core {
+    transform: scale(0.2);
+    transform-origin: center;
+    transform-box: fill-box;
+    transition: transform 420ms cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 320ms ease;
+  }
+
+  .ruta-node-pulse {
+    transform: scale(0.4);
+    transform-origin: center;
+    transform-box: fill-box;
+    opacity: 0;
+  }
+
+  .ruta-node-tag {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.72);
+    transform-origin: center bottom;
+    transform-box: fill-box;
+    transition:
+      opacity 260ms var(--gob-ease-out),
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node {
+    opacity: 1;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node-core {
+    transform: scale(1);
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node-tag {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node.is-selected-node .ruta-node-tag {
+    transform: translate3d(0, -4px, 0) scale(1.04);
+    transition-delay: 0ms !important;
+  }
+
+  /* Cuando una tarjeta de ciudad está activa o bajo el cursor, su punto en el mapa brilla y pulsa con mayor intensidad */
+  .ruta-map-canvas.is-route-active .ruta-node.is-selected-node .ruta-node-core,
+  .ruta-map-canvas.is-route-active .ruta-node.is-hovered-node .ruta-node-core {
+    transform: scale(1.24);
+    transition-delay: 0ms !important;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node.is-selected-node .ruta-node-pulse,
+  .ruta-map-canvas.is-route-active .ruta-node.is-hovered-node .ruta-node-pulse {
+    animation-duration: 1.5s;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node-pulse {
+    animation: gobNodePulse 2.4s ease-out infinite;
+  }
+
+  /* Tiempos escalonados punto por punto (Miami: 200ms, Ámsterdam: 640ms, Abu Dabi: 1080ms, Corea: 1520ms) */
+  .ruta-map-canvas.is-route-active .ruta-node-1,
+  .ruta-map-canvas.is-route-active .ruta-node-1 .ruta-node-core {
+    transition-delay: 200ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-1 .ruta-node-tag {
+    transition-delay: 220ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-1 .ruta-node-pulse {
+    animation-delay: 350ms;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node-2,
+  .ruta-map-canvas.is-route-active .ruta-node-2 .ruta-node-core {
+    transition-delay: 640ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-2 .ruta-node-tag {
+    transition-delay: 540ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-2 .ruta-node-pulse {
+    animation-delay: 790ms;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node-3,
+  .ruta-map-canvas.is-route-active .ruta-node-3 .ruta-node-core {
+    transition-delay: 1080ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-3 .ruta-node-tag {
+    transition-delay: 860ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-3 .ruta-node-pulse {
+    animation-delay: 1230ms;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-node-4,
+  .ruta-map-canvas.is-route-active .ruta-node-4 .ruta-node-core {
+    transition-delay: 1520ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-4 .ruta-node-tag {
+    transition-delay: 1180ms;
+  }
+  .ruta-map-canvas.is-route-active .ruta-node-4 .ruta-node-pulse {
+    animation-delay: 1670ms;
+  }
+
+  /*Arcos conectores que viajan de un punto al siguiente */
+  .ruta-arc {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 440ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-arc-1 {
+    stroke-dashoffset: 0;
+    transition-delay: 280ms;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-arc-2 {
+    stroke-dashoffset: 0;
+    transition-delay: 720ms;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-arc-3 {
+    stroke-dashoffset: 0;
+    transition-delay: 1160ms;
+  }
+
+  /* 1) Animación en reposo cuando NO se está seleccionando un país:
+        Se desliza UNA SOLA LÍNEA por cada pasada (stroke-dasharray: 24 260 con gap > 2x100 para que jamás se duplique),
+        recorriendo DE PUNTO A PUNTO encima de las líneas predeterminadas:
+        - Salto 1: Miami -> Ámsterdam (se detiene en Ámsterdam)
+        - Salto 2: Ámsterdam -> Abu Dabi (se detiene en Abu Dabi)
+        - Salto 3: Abu Dabi -> Corea del Sur (se detiene en Corea y descansa antes de repetir) */
+  .ruta-hop-beam {
+    stroke-dasharray: 24 260;
+    stroke-dashoffset: 24;
+    opacity: 0;
+  }
+
+  .ruta-map-canvas.is-route-active:not(.is-user-selecting) .ruta-hop-1 {
+    animation: gobHopSegment1 6.6s cubic-bezier(0.22, 1, 0.36, 1) 1.6s infinite;
+  }
+
+  .ruta-map-canvas.is-route-active:not(.is-user-selecting) .ruta-hop-2 {
+    animation: gobHopSegment2 6.6s cubic-bezier(0.22, 1, 0.36, 1) 1.6s infinite;
+  }
+
+  .ruta-map-canvas.is-route-active:not(.is-user-selecting) .ruta-hop-3 {
+    animation: gobHopSegment3 6.6s cubic-bezier(0.22, 1, 0.36, 1) 1.6s infinite;
+  }
+
+  /* Cuando el usuario hace clic en un país, se oculta de inmediato el recorrido en reposo */
+  .ruta-map-canvas.is-user-selecting .ruta-idle-hops {
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
+  @keyframes gobHopSegment1 {
+    0%          { stroke-dashoffset: 24; opacity: 0; }
+    2%          { stroke-dashoffset: 24; opacity: 1; }
+    20%         { stroke-dashoffset: -102; opacity: 1; }
+    22%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobHopSegment2 {
+    0%, 28%     { stroke-dashoffset: 24; opacity: 0; }
+    30%         { stroke-dashoffset: 24; opacity: 1; }
+    48%         { stroke-dashoffset: -102; opacity: 1; }
+    50%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobHopSegment3 {
+    0%, 56%     { stroke-dashoffset: 24; opacity: 0; }
+    58%         { stroke-dashoffset: 24; opacity: 1; }
+    76%         { stroke-dashoffset: -102; opacity: 1; }
+    78%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  /* 2) Cuando seleccionas un país: una única línea brillante se desliza una sola vez por encima de la línea predeterminada
+        hacia el país seleccionado desde el extremo más lejano, y al terminar espera en calma antes de reanudar */
+  .ruta-directed-beam {
+    stroke-dasharray: 28 260;
+    stroke-dashoffset: 28;
+    opacity: 0;
+  }
+
+  .ruta-directed-beam.is-travelling {
+    animation: gobDirectedBeamClickOnce 1.15s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+  }
+
+  @keyframes gobDirectedBeamClickOnce {
+    0% {
+      stroke-dasharray: 28 260;
+      stroke-dashoffset: 28;
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    88% {
+      stroke-dasharray: 28 260;
+      stroke-dashoffset: -102;
+      opacity: 1;
+    }
+    100% {
+      stroke-dasharray: 28 260;
+      stroke-dashoffset: -102;
+      opacity: 0;
+    }
+  }
+
+  /* Tarjetas de cada destino (.ruta-seq-pin) emergen justo cuando su punto se ilumina (sin scale en hover para evitar texto borroso) */
+  .ruta-seq-pin {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) scale(0.88);
+    transition:
+      opacity 460ms var(--gob-ease-out),
+      transform 520ms cubic-bezier(0.175, 0.885, 0.32, 1.2),
+      box-shadow 220ms ease;
+    transition-delay: 0ms;
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-seq-pin {
+    opacity: 1;
+    transform: none;
+    transition-delay: var(--pin-seq-delay, 260ms);
+  }
+
+  .ruta-map-canvas.is-route-active .ruta-seq-pin:hover {
+    transform: translateY(-5px);
+    transition-delay: 0ms;
+  }
+}
+
+@keyframes gobNodePulse {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.85;
+  }
+  70% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+/* 8. Revelado Cinematográfico por Renglones (`Split-Line Mask Reveal`), Word-Highlight, Sheen Sweep & Validation Shake */
+.gob-line-mask {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .gob-reveal .gob-line-inner {
+    display: inline-block;
+    transform: translate3d(0, 105%, 0);
+    opacity: 0;
+    transition:
+      transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 480ms var(--gob-ease-out);
+    transition-delay: calc(var(--gob-delay, 60ms) + var(--line-delay, 0ms));
+    will-change: transform, opacity;
+  }
+
+  .gob-reveal.is-inview .gob-line-inner {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  /* Iluminación progresiva de lectura palabra por palabra en 02 • Presentación */
+  .gob-lit-word {
+    opacity: 0.34;
+    transition: opacity 280ms ease, color 280ms ease;
+  }
+
+  .gob-lit-word.is-lit {
+    opacity: 1;
+  }
+
+  /* Efecto de acercamiento 100% nítido (sin blur ni transición lenta heredada) en la tarjeta destacada de Ruta Internacional */
+  .ruta-featured-card .ruta-featured-img {
+    transition: transform 0.3s var(--gob-ease-out) 0ms !important;
+  }
+
+  .ruta-featured-card:hover .ruta-featured-img {
+    transform: scale(1.035);
+  }
+
+  /* Brillo Satinado (Sheen Sweep) en botones principales, placa FINANCIAMIENTO y nombres de ponentes */
+  .btn-hero-reg,
+  .btn-nav-reg,
+  .registro-submit-btn,
+  .fin-banner-badge-wrap,
+  .speaker-name-skew {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-hero-reg::after,
+  .btn-nav-reg::after,
+  .registro-submit-btn::after,
+  .fin-banner-badge-wrap::after,
+  .speaker-name-skew::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -130%;
+    width: 65%;
+    height: 140%;
+    background: linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.28) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+    transition: left 680ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn-hero-reg:hover::after,
+  .btn-nav-reg:hover::after,
+  .registro-submit-btn:hover::after,
+  .speaker-card-xd:hover .speaker-name-skew::after,
+  .fin-banner-badge-wrap.is-inview::after {
+    left: 145%;
+  }
+}
+
+/* Sacudida elástica horizontal (macOS/iOS Validation Shake) cuando un campo tiene error */
+.registro-input-wrap.is-shaking {
+  animation: gobFieldShake 380ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes gobFieldShake {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-6px, 0, 0); }
+  40% { transform: translate3d(5px, 0, 0); }
+  60% { transform: translate3d(-4px, 0, 0); }
+  80% { transform: translate3d(2px, 0, 0); }
+}
+
+/* 9. Movimiento Vivo de los Puntos y Órbitas del Planeta en el Banner de FINANCIAMIENTO */
+.fin-planet-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.financiamiento-banner-inner {
+  position: relative;
+  z-index: 2;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .fin-node-dot {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: gobPlanetDotBreath 2.4s ease-in-out infinite;
+  }
+
+  .fin-node-ring {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: gobPlanetRingGlow 2.4s ease-in-out infinite;
+  }
+
+  .fin-node-wave {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: gobPlanetWaveExpand 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  /* Desfase orgánico entre los 4 puntos del planeta */
+  .fin-planet-node-1 .fin-node-dot,
+  .fin-planet-node-1 .fin-node-ring,
+  .fin-planet-node-1 .fin-node-wave {
+    animation-delay: 0s;
+  }
+
+  .fin-planet-node-2 .fin-node-dot,
+  .fin-planet-node-2 .fin-node-ring,
+  .fin-planet-node-2 .fin-node-wave {
+    animation-delay: 0.65s;
+  }
+
+  .fin-planet-node-3 .fin-node-dot,
+  .fin-planet-node-3 .fin-node-ring,
+  .fin-planet-node-3 .fin-node-wave {
+    animation-delay: 1.3s;
+  }
+
+  .fin-planet-node-4 .fin-node-dot,
+  .fin-planet-node-4 .fin-node-ring,
+  .fin-planet-node-4 .fin-node-wave {
+    animation-delay: 1.95s;
+  }
+
+  /* Pulsos viajeros PUNTO POR PUNTO sobre TODOS los 8 tramos reales de las curvas predeterminadas del planeta:
+     Se activan cuando el banner está visible tras el preloader (.is-planet-active) para que al actualizar (F5)
+     SIEMPRE empiece exactamente por el #1 (desde el inicio de la línea hacia el Punto 1, y nunca desde un punto):
+     1) Extremo Izq -> Punto 1
+     2) Punto 1 -> Punto 2
+     3) Punto 2 -> Extremo Inf-Derecho
+     4) Extremo Inf-Izq -> Punto 4
+     5) Punto 4 -> Punto 3
+     6) Pequeña línea inferior de Punto 3 -> Punto 3
+     7) Punto 3 -> Punto 2
+     8) Punto 2 -> Extremo Derecho */
+  .fin-hop-beam {
+    stroke-dasharray: 28 260;
+    stroke-dashoffset: 28;
+    opacity: 0;
+  }
+
+  .financiamiento-banner.is-planet-active .fin-hop-1 { animation: gobPlanetHop1 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-2 { animation: gobPlanetHop2 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-3 { animation: gobPlanetHop3 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-4 { animation: gobPlanetHop4 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-5 { animation: gobPlanetHop5 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-6 { animation: gobPlanetHop6 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-7 { animation: gobPlanetHop7 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .financiamiento-banner.is-planet-active .fin-hop-8 { animation: gobPlanetHop8 10.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+
+  @keyframes gobPlanetHop1 {
+    0%          { stroke-dashoffset: 28; opacity: 0; }
+    1.2%        { stroke-dashoffset: 28; opacity: 0.98; }
+    9.2%        { stroke-dashoffset: -102; opacity: 0.98; }
+    10.5%, 100% { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop2 {
+    0%, 12.5%   { stroke-dashoffset: 28; opacity: 0; }
+    13.7%       { stroke-dashoffset: 28; opacity: 0.98; }
+    21.7%       { stroke-dashoffset: -102; opacity: 0.98; }
+    23%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop3 {
+    0%, 25.5%   { stroke-dashoffset: 28; opacity: 0; }
+    26.7%       { stroke-dashoffset: 28; opacity: 0.98; }
+    33.7%       { stroke-dashoffset: -102; opacity: 0.98; }
+    35%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop4 {
+    0%, 37.5%   { stroke-dashoffset: 28; opacity: 0; }
+    38.7%       { stroke-dashoffset: 28; opacity: 0.98; }
+    46.7%       { stroke-dashoffset: -102; opacity: 0.98; }
+    48%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop5 {
+    0%, 50%     { stroke-dashoffset: 28; opacity: 0; }
+    51.2%       { stroke-dashoffset: 28; opacity: 0.98; }
+    59.2%       { stroke-dashoffset: -102; opacity: 0.98; }
+    60.5%, 100% { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop6 {
+    0%, 63%     { stroke-dashoffset: 28; opacity: 0; }
+    64.2%       { stroke-dashoffset: 28; opacity: 0.98; }
+    72.2%       { stroke-dashoffset: -102; opacity: 0.98; }
+    73.5%, 100% { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop7 {
+    0%, 75.5%   { stroke-dashoffset: 28; opacity: 0; }
+    76.7%       { stroke-dashoffset: 28; opacity: 0.98; }
+    84.7%       { stroke-dashoffset: -102; opacity: 0.98; }
+    86%, 100%   { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  @keyframes gobPlanetHop8 {
+    0%, 88%     { stroke-dashoffset: 28; opacity: 0; }
+    89.2%       { stroke-dashoffset: 28; opacity: 0.98; }
+    97.2%       { stroke-dashoffset: -102; opacity: 0.98; }
+    98.5%, 100% { stroke-dashoffset: -102; opacity: 0; }
+  }
+
+  /* Partículas estelares flotando sutilmente sobre la malla de puntos del planeta */
+  .fin-planet-spark {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: gobPlanetSparkFloat 3.2s ease-in-out infinite;
+  }
+
+  .fin-spark-2 { animation-delay: 0.7s; }
+  .fin-spark-3 { animation-delay: 1.4s; }
+  .fin-spark-4 { animation-delay: 2.1s; }
+  .fin-spark-5 { animation-delay: 2.6s; }
+
+  /* ==========================================================================
+     10. Pack de 8 Nuevas Animaciones y Transiciones Cinemáticas (100% Nítidas)
+     ========================================================================== */
+
+  /* 10.1 HERO: Pulso de luz en la línea de edición (.hero-edition-line) y onda de halo en botones */
+  .hero-edition-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-edition-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 85%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, #FFFFFF 50%, transparent 100%);
+    animation: gobHeroLineGleam 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .btn-hero-reg,
+  .btn-hero-prog {
+    transition:
+      transform 0.28s var(--gob-ease-out),
+      box-shadow 0.32s var(--gob-ease-out),
+      background-color 0.28s ease,
+      border-color 0.28s ease;
+  }
+
+  .btn-hero-reg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 5px rgba(96, 124, 255, 0.22), 0 12px 28px rgba(35, 92, 231, 0.45);
+  }
+
+  .btn-hero-prog:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.14), 0 10px 24px rgba(8, 16, 42, 0.35);
+  }
+
+  /* 10.2 PÚBLICO OBJETIVO: Barrido de luz metálico secuencial en .publico-top-line */
+  .publico-top-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .publico-top-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.78) 50%, transparent 100%);
+    animation: gobTopLineSweep 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .publico-item:nth-child(2) .publico-top-line::after {
+    animation-delay: 0.65s;
+  }
+
+  .publico-item:nth-child(3) .publico-top-line::after {
+    animation-delay: 1.3s;
+  }
+
+  /* 10.3 PRESENTACIÓN: Corriente luminosa vertical en .presentacion-divider y expansión de .presentacion-pill-line */
+  .presentacion-divider {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .presentacion-divider::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -40%;
+    width: 100%;
+    height: 38%;
+    background: linear-gradient(180deg, transparent 0%, #607CFF 45%, #FFFFFF 55%, transparent 100%);
+    animation: gobDividerVerticalStream 3.8s ease-in-out infinite;
+  }
+
+  .presentacion-pill-line {
+    transition:
+      transform 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      background-color 0.28s ease,
+      box-shadow 0.28s ease;
+    transform-origin: center center;
+  }
+
+  .presentacion-pill:hover .presentacion-pill-line {
+    transform: scaleY(1.22);
+    background-color: #235ce8;
+    box-shadow: 0 0 8px rgba(35, 92, 231, 0.45);
+  }
+
+  /* 10.4 BENEFICIOS: Flujo de energía descendente en .beneficios-timeline-line e iluminación secuencial de .beneficio-icon-box */
+  .beneficios-timeline-line {
+    overflow: hidden;
+  }
+
+  .beneficios-timeline-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -30%;
+    width: 100%;
+    height: 28%;
+    background: linear-gradient(180deg, transparent 0%, #5E82E2 40%, #FFFFFF 65%, transparent 100%);
+    animation: gobTimelineEnergyDrop 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .beneficio-row.is-inview:nth-of-type(1) .beneficio-icon-box {
+    animation: gobBeneficioIconRelay 4.8s ease-in-out 0.15s infinite;
+  }
+  .beneficio-row.is-inview:nth-of-type(2) .beneficio-icon-box {
+    animation: gobBeneficioIconRelay 4.8s ease-in-out 1.05s infinite;
+  }
+  .beneficio-row.is-inview:nth-of-type(3) .beneficio-icon-box {
+    animation: gobBeneficioIconRelay 4.8s ease-in-out 1.95s infinite;
+  }
+  .beneficio-row.is-inview:nth-of-type(4) .beneficio-icon-box {
+    animation: gobBeneficioIconRelay 4.8s ease-in-out 2.85s infinite;
+  }
+
+  /* 10.5 PONENTES: Acercamiento limpio en retrato (.speaker-person-img) y flecha (sin inclinación ni blur) */
+  .speaker-card-xd:hover .speaker-person-img {
+    transform: scale(1.03);
+  }
+
+  .speaker-card-xd:hover .btn-trajectory svg {
+    animation: gobTrajectoryArrowPulse 1s ease-in-out infinite;
+  }
+
+  /* 10.6 EJES TEMÁTICOS & BARRAS DE TÍTULO: Cascada interna al abrir acordeón y destello en .xd-title-bar */
+  .eje-accordion-card .eje-body-inner p {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    transition:
+      opacity 0.36s var(--gob-ease-out),
+      transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .eje-accordion-card.is-open .eje-body-inner p {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .eje-accordion-card.is-open .eje-body-inner p:nth-child(1) {
+    transition-delay: 75ms;
+  }
+
+  .eje-accordion-card.is-open .eje-body-inner p:nth-child(2) {
+    transition-delay: 155ms;
+  }
+
+  .xd-title-bar {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .xd-title-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.72) 50%, transparent 100%);
+    animation: gobTitleBarGleam 4.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  /* 10.7 RUTA INTERNACIONAL: Pulso de radar 100% nítido en la tarjeta de país activa (.ruta-pin-card.is-active) */
+  .ruta-pin-card.is-active {
+    animation: gobActivePinRadar 2.4s ease-in-out infinite;
+  }
+
+  /* 10.8 SEDE (T TOWER) & REGISTRO: Movimiento Ken Burns en edificio y confirmación reactiva en formulario */
+  .venue-building-img {
+    animation: gobVenueKenBurns 15s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  .registro-field.is-valid-live:not(.is-focused) .registro-input {
+    border-color: rgba(35, 92, 231, 0.55);
+  }
+
+  .registro-field.is-valid-live .registro-input-icon {
+    color: #235ce7;
+  }
+
+  .registro-submit-btn {
+    animation: gobSubmitHaloBreath 2.8s ease-in-out infinite;
+  }
+
+  /* ==========================================================================
+     11. Pack de 8 Nuevos Movimientos Vivos (Watermarks, Íconos, Brújula, Radar WhatsApp, Hero 3D)
+     ========================================================================== */
+
+  /* 11.1 MARCAS DE AGUA (.section-watermark): Respiración de opacidad sutil (sin filter para evitar capas borrosas) */
+  .watermark-ruta {
+    animation: gobWatermarkRutaBreath 4.8s ease-in-out infinite alternate;
+  }
+
+  /* 11.2 BENEFICIOS (.beneficio-svg): Acercamiento nítido solo al sobreponer el mouse (sin rotación continua que desenfoque el SVG) */
+  .beneficio-svg {
+    transition: transform 0.25s var(--gob-ease-out);
+  }
+
+  .beneficio-row:hover .beneficio-svg {
+    transform: scale(1.08);
+  }
+
+  /* 11.3 ASTERISCO GOBERNA EN 06 • SEDE (.venue-asterisk-icon): Estático sin giro 360° (solo ligero acercamiento limpio en hover) */
+  .venue-asterisk-icon {
+    transition: transform 0.28s var(--gob-ease-out);
+  }
+
+  .venue-floating-card:hover .venue-asterisk-icon {
+    transform: scale(1.04);
+  }
+
+  /* 11.4 BOTÓN FLOTANTE DE WHATSAPP (#whatsapp-float-btn): Doble onda de radar verde expansiva */
+  .whatsapp-float {
+    overflow: visible !important;
+  }
+
+  .whatsapp-float::before,
+  .whatsapp-float::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(37, 211, 102, 0.72);
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    animation: gobWhatsappRadarWave 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .whatsapp-float::after {
+    animation-delay: 1.4s;
+  }
+
+  /* 11.5 TARJETA DE SEDE (.venue-floating-card) Y TARJETA DE REGISTRO (.registro-card): Borde luminoso respiratorio */
+  .venue-floating-card.is-inview,
+  .venue-card.is-inview {
+    animation: gobVenueCardBorderGlow 4.6s ease-in-out infinite;
+  }
+
+  .registro-card.is-inview {
+    animation: gobRegistroCardBorderGlow 4.6s ease-in-out infinite;
+  }
+
+  /* ==========================================================================
+     12. Micro-Interacciones Nítidas (Placa Financiamiento, Pines Ruta, Autocomplete, Footer y Navbar)
+     ========================================================================== */
+
+  /* 12.2 BANNER DE FINANCIAMIENTO: Barrido satinado automático en la placa FINANCIAMIENTO (sin mover ni re-escalar el texto) */
+  .fin-banner-badge-wrap.is-inview::after {
+    animation: gobAutoSheenSweep 4.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  /* 12.3 RUTA INTERNACIONAL: Micro-interacción en flecha › de los 4 pines (conservando translateY(-50%)) + flujo en .ruta-callout-bar */
+  .ruta-pin-arrow {
+    transition: transform 0.24s var(--gob-ease-out);
+  }
+
+  .ruta-pin-card:hover .ruta-pin-arrow {
+    transform: translateY(-50%) translateX(3px);
+  }
+
+  .ruta-callout-bar {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ruta-callout-bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -45%;
+    width: 100%;
+    height: 45%;
+    background: linear-gradient(180deg, transparent 0%, #9CC0FF 45%, #FFFFFF 55%, transparent 100%);
+    animation: gobDividerVerticalStream 3.2s ease-in-out infinite;
+  }
+
+  /* 12.5 REGISTRO (#registro): Despliegue suave del buscador predictivo y flecha viva en RESERVAR MI CUPO */
+  .registro-autocomplete-list {
+    animation: gobAutocompleteCurtain 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform-origin: top center;
+  }
+
+  .registro-autocomplete-list li {
+    transition:
+      transform 0.2s var(--gob-ease-out),
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .registro-autocomplete-list li:hover {
+    transform: translate3d(4px, 0, 0);
+  }
+
+  .registro-submit-btn svg {
+    transition: transform 0.26s var(--gob-ease-out);
+  }
+
+  .registro-submit-btn:hover svg {
+    animation: gobSubmitArrowDrive 0.9s ease-in-out infinite;
+  }
+
+  /* 12.6 FOOTER (.footer-xd): Subrayado luminoso deslizante en los 6 enlaces y elevación del logo */
+  .footer-xd-nav a {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+    transition: color 0.25s ease;
+  }
+
+  .footer-xd-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #5E82E2 0%, #9CC0FF 100%);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .footer-xd-nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .footer-xd-logo {
+    transition: opacity 0.25s ease, transform 0.25s var(--gob-ease-out);
+  }
+
+  .footer-xd-logo:hover {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  /* 12.7 NAVBAR (#navbar): Logo 100% nítido sin escalado por transform en hover (evita desenfoque en Chromium con zoom) y destello en botón REGÍSTRATE */
+
+  .btn-nav-reg::after {
+    animation: gobAutoSheenSweep 5.5s cubic-bezier(0.22, 1, 0.36, 1) 1.5s infinite;
+  }
+
+  /* 11.6 DESTELLO DE LLEGADA EN ETIQUETA DE SECCIÓN (.xd-section-tag.is-target-arrived) AL NAVEGAR DESDE EL MENÚ */
+  .xd-section-tag.is-target-arrived .xd-tag-line {
+    animation: gobSectionArrivalLine 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1;
+  }
+
+  .xd-section-tag.is-target-arrived .xd-tag-text {
+    animation: gobSectionArrivalText 1.4s ease-out 1;
+  }
+
+  /* 11.7 FOCO AMBIENTAL 3D EN EL HERO (.hero-ambient-spotlight) */
+  .hero {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-ambient-spotlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 640px;
+    height: 640px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(94, 130, 226, 0.19) 0%,
+      rgba(35, 92, 232, 0.08) 42%,
+      rgba(8, 16, 42, 0) 72%
+    );
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    will-change: transform, opacity;
+  }
+
+  .hero-ambient-spotlight.is-active {
+    opacity: 1;
+  }
+
+  .hero > .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .registro-section .hero-ambient-spotlight {
+    z-index: 1;
+  }
+
+  /* 12.8 TÍTULOS CON DEGRADADO: Flujo luminoso continuo en el degradado (100% nítido, sin transform ni filter) */
+  .text-gradient,
+  .xd-text-gradient,
+  .venue-word-nuevas,
+  .venue-word-conexiones {
+    background-image: linear-gradient(90deg, #5E82E2 0%, #17348D 35%, #607CFF 65%, #5E82E2 100%);
+    background-size: 220% 100%;
+    animation: gobGradientTextFlow 6s ease-in-out infinite;
+  }
+
+  .xd-text-gradient-light,
+  .ejes-gradient-line {
+    background-image: linear-gradient(90deg, #5E82E2 0%, #235CE8 35%, #8CA8FF 65%, #5E82E2 100%);
+    background-size: 220% 100%;
+    animation: gobGradientTextFlow 6s ease-in-out infinite;
+  }
+}
+
+@keyframes gobWatermarkBreath {
+  0%   { filter: brightness(0.95); }
+  100% { filter: brightness(1.18) drop-shadow(0 0 18px rgba(94, 130, 226, 0.22)); }
+}
+
+@keyframes gobWatermarkRutaBreath {
+  0%   { opacity: 0.68; }
+  100% { opacity: 0.88; }
+}
+
+@keyframes gobWorldIconOrbit {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50%      { transform: rotate(8deg) scale(1.07); }
+}
+
+@keyframes gobToolsIconBalance {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-7deg) scale(1.05); }
+  75%      { transform: rotate(7deg) scale(1.05); }
+}
+
+@keyframes gobNetworkIconPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.1); }
+}
+
+@keyframes gobFundingIconFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -3.5px, 0) scale(1.05); }
+}
+
+@keyframes gobCompassRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes gobWhatsappRadarWave {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.78;
+  }
+  85%, 100% {
+    transform: scale(1.52);
+    opacity: 0;
+  }
+}
+
+@keyframes gobVenueCardBorderGlow {
+  0%, 100% {
+    box-shadow: 0 24px 60px rgba(8, 16, 42, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(94, 130, 226, 0.28), 0 28px 68px rgba(35, 92, 231, 0.18);
+  }
+}
+
+@keyframes gobRegistroCardBorderGlow {
+  0%, 100% {
+    box-shadow: 0 28px 70px rgba(3, 8, 24, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(96, 124, 255, 0.35), 0 30px 76px rgba(35, 92, 231, 0.32);
+  }
+}
+
+@keyframes gobSectionArrivalLine {
+  0%, 100% { transform: scaleX(1); }
+  40%      { transform: scaleX(1.45); box-shadow: 0 0 12px rgba(96, 124, 255, 0.85); }
+}
+
+@keyframes gobSectionArrivalText {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  35%      { transform: translate3d(6px, 0, 0); }
+}
+
+@keyframes gobFinBadgeFloat {
+  0%, 100% {
+    transform: skewX(-10deg) translate3d(0, 0, 0);
+    box-shadow: 0 12px 32px rgba(35, 92, 231, 0.45);
+  }
+  50% {
+    transform: skewX(-10deg) translate3d(0, -4px, 0);
+    box-shadow: 0 18px 38px rgba(94, 130, 226, 0.58);
+  }
+}
+
+@keyframes gobAutoSheenSweep {
+  0%, 18%   { left: -130%; }
+  52%, 100% { left: 145%; }
+}
+
+@keyframes gobGpsPinBounce {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -3.5px, 0); }
+}
+
+@keyframes gobGpsInnerCirclePulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.22); }
+}
+
+@keyframes gobAutocompleteCurtain {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+}
+
+@keyframes gobSubmitArrowDrive {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(5px, 0, 0); }
+}
+
+@keyframes gobHeroLineGleam {
+  0%, 15%   { left: -100%; }
+  55%, 100% { left: 140%; }
+}
+
+@keyframes gobTopLineSweep {
+  0%, 20%   { left: -65%; }
+  65%, 100% { left: 135%; }
+}
+
+@keyframes gobDividerVerticalStream {
+  0%, 10%   { top: -45%; opacity: 0; }
+  25%       { opacity: 0.95; }
+  75%       { opacity: 0.95; }
+  90%, 100% { top: 125%; opacity: 0; }
+}
+
+@keyframes gobTimelineEnergyDrop {
+  0%        { top: -30%; opacity: 0; }
+  12%       { opacity: 1; }
+  78%       { opacity: 1; }
+  92%, 100% { top: 115%; opacity: 0; }
+}
+
+@keyframes gobBeneficioIconRelay {
+  0%, 18%, 100% {
+    box-shadow: 0 4px 14px rgba(35, 92, 231, 0.06);
+  }
+  9% {
+    border-color: rgba(35, 92, 231, 0.55);
+    box-shadow: 0 0 0 4px rgba(94, 130, 226, 0.16), 0 8px 20px rgba(35, 92, 231, 0.18);
+  }
+}
+
+@keyframes gobTrajectoryArrowPulse {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes gobTitleBarGleam {
+  0%, 25%   { left: -80%; }
+  70%, 100% { left: 140%; }
+}
+
+@keyframes gobActivePinRadar {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(35, 92, 231, 0.32), 0 12px 26px rgba(8, 18, 41, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(35, 92, 231, 0), 0 14px 30px rgba(35, 92, 231, 0.24);
+  }
+}
+
+@keyframes gobVenueKenBurns {
+  0%   { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1.045) translate3d(-4px, -3px, 0); }
+}
+
+@keyframes gobSubmitHaloBreath {
+  0%, 100% {
+    box-shadow: 0 8px 22px rgba(35, 92, 231, 0.28);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(94, 130, 226, 0.18), 0 12px 28px rgba(35, 92, 231, 0.42);
+  }
+}
+
+@keyframes gobPlanetDotBreath {
+  0%, 100% {
+    transform: scale(0.88);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.32);
+    opacity: 1;
+  }
+}
+
+@keyframes gobPlanetRingGlow {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.95;
+  }
+}
+
+@keyframes gobPlanetWaveExpand {
+  0% {
+    transform: scale(0.45);
+    opacity: 0.9;
+  }
+  80%, 100% {
+    transform: scale(1.95);
+    opacity: 0;
+  }
+}
+
+@keyframes gobPlanetOrbitFlow {
+  0% {
+    stroke-dashoffset: 110;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.95;
+  }
+  78% {
+    opacity: 0.95;
+  }
+  92%, 100% {
+    stroke-dashoffset: -12;
+    opacity: 0;
+  }
+}
+
+@keyframes gobPlanetSparkFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate3d(-4px, -6px, 0) scale(1.35);
+    opacity: 0.95;
+  }
+}
+
+@keyframes gobGradientTextFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 9. Respeto estricto a prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .gob-reveal,
+  .ruta-seq-pin,
+  .ruta-node,
+  .gob-line-inner,
+  .gob-lit-word {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

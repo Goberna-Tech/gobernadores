@@ -84,6 +84,10 @@ export function initRegistroForm() {
     if (inputEl) {
       if (message) {
         inputEl.classList.add('has-error');
+        const wrap = inputEl.closest('.registro-input-wrap') || inputEl;
+        wrap.classList.remove('is-shaking');
+        void wrap.offsetWidth;
+        wrap.classList.add('is-shaking');
       } else {
         inputEl.classList.remove('has-error');
       }

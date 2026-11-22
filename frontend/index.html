@@ -18,7 +18,8 @@
   <!-- Hojas de Estilo Modulares -->
   <link rel="stylesheet" href="./css/tokens.css?v=20261110_xd_v6" />
   <link rel="stylesheet" href="./css/main.css?v=20261110_xd_v6" />
-  <link rel="stylesheet" href="./css/sections.css?v=20261121_wa_solid_v2" />
+  <link rel="stylesheet" href="./css/sections.css?v=20261121_wa_official_v7" />
+  <link rel="stylesheet" href="./css/animations.css?v=20261121_scroll_motion_v33" />
   <link rel="stylesheet" href="./css/preloader.css?v=20261110_xd_v6" />
   <script>
     (function () {
@@ -56,8 +57,8 @@
         <ul id="nav-links" class="nav-links">
           <li><a href="#presentacion" class="nav-link">EL FORO</a></li>
           <li><a href="#beneficios" class="nav-link">BENEFICIOS</a></li>
-          <li><a href="#ejes" class="nav-link">EJES</a></li>
           <li><a href="#ponentes" class="nav-link">PONENTES</a></li>
+          <li><a href="#ejes" class="nav-link">EJES</a></li>
           <li><a href="#ruta" class="nav-link">RUTA</a></li>
           <li><a href="#informacion" class="nav-link">INFORMACIÓN</a></li>
           <li class="mobile-drawer-cta">
@@ -761,14 +762,15 @@
             <!-- Item 2: Sala de Conferencias -->
             <div class="venue-detail-row">
               <div class="venue-detail-icon">
-                <svg viewBox="-1 0 40 32" width="32" height="25" aria-hidden="true">
+                <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
                   <defs>
-                    <linearGradient id="venueIconGrad2" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="venueIconGrad2" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="27">
                       <stop offset="0%" stop-color="#17348D"/>
                       <stop offset="100%" stop-color="#5E82E2"/>
                     </linearGradient>
                   </defs>
-                  <path d="M 30.892 30.538 L 7.108 30.538 L 0.502 0.728 L 37.498 0.728 Z" fill="none" stroke="url(#venueIconGrad2)" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M 8 4 L 22 4 L 27 27 L 13 27 Z" fill="none" stroke="url(#venueIconGrad2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="8" y1="4" x2="4" y2="27" stroke="url(#venueIconGrad2)" stroke-width="2.2" stroke-linecap="round"/>
                 </svg>
               </div>
               <div class="venue-detail-text">
@@ -779,17 +781,18 @@
             <!-- Item 3: Sábado 12 -->
             <div class="venue-detail-row">
               <div class="venue-detail-icon">
-                <svg viewBox="0 0 29 29" width="25" height="25" aria-hidden="true">
+                <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
                   <defs>
-                    <linearGradient id="venueIconGrad3" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="venueIconGrad3" gradientUnits="userSpaceOnUse" x1="0" y1="3" x2="0" y2="28">
                       <stop offset="0%" stop-color="#17348D"/>
                       <stop offset="100%" stop-color="#5E82E2"/>
                     </linearGradient>
                   </defs>
-                  <rect x="2.5" y="5" width="24" height="21.5" rx="3.5" fill="none" stroke="url(#venueIconGrad3)" stroke-width="2"/>
-                  <line x1="2.5" y1="11.5" x2="26.5" y2="11.5" stroke="url(#venueIconGrad3)" stroke-width="2"/>
-                  <line x1="9" y1="2" x2="9" y2="7.5" stroke="url(#venueIconGrad3)" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="20" y1="2" x2="20" y2="7.5" stroke="url(#venueIconGrad3)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M 4 9.5 C 4 7.57 5.57 6 7.5 6 L 24.5 6 C 26.43 6 28 7.57 28 9.5 L 28 20 L 20 28 L 7.5 28 C 5.57 28 4 26.43 4 24.5 Z" fill="none" stroke="url(#venueIconGrad3)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M 20 28 L 20 22.5 C 20 21.12 21.12 20 22.5 20 L 28 20" fill="none" stroke="url(#venueIconGrad3)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="4" y1="12.5" x2="28" y2="12.5" stroke="url(#venueIconGrad3)" stroke-width="2.2" stroke-linecap="round"/>
+                  <line x1="10.5" y1="3" x2="10.5" y2="8.5" stroke="url(#venueIconGrad3)" stroke-width="2.2" stroke-linecap="round"/>
+                  <line x1="21.5" y1="3" x2="21.5" y2="8.5" stroke="url(#venueIconGrad3)" stroke-width="2.2" stroke-linecap="round"/>
                 </svg>
               </div>
               <div class="venue-detail-text">
@@ -972,10 +975,10 @@
 
       <nav class="footer-xd-nav" aria-label="Enlaces del pie de página">
         <a href="#presentacion">EL FORO</a>
-        <a href="#ejes">EJES</a>
+        <a href="#ponentes">PONENTES</a>
         <a href="#ruta">RUTA</a>
         <a href="#beneficios">BENEFICIOS</a>
-        <a href="#ponentes">PONENTES</a>
+        <a href="#ejes">EJES</a>
         <a href="#informacion">INFORMACIÓN</a>
       </nav>
     </div>
@@ -1011,10 +1014,25 @@
     aria-label="Contactar por WhatsApp al 907772155"
     title="Atención directa a autoridades por WhatsApp (+51 907 772 155)"
   >
-    <img src="./assets/img/icon-whatsapp-xd.png?v=20261121_solid_v2" alt="WhatsApp" class="whatsapp-xd-img" />
+    <svg class="whatsapp-xd-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="64" height="64" aria-hidden="true">
+      <defs>
+        <linearGradient id="wa-bg-grad" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#5FFC7B" />
+          <stop offset="100%" stop-color="#25D366" />
+        </linearGradient>
+      </defs>
+      <!-- Fondo circular oficial de WhatsApp 100% sólido -->
+      <circle cx="128" cy="128" r="128" fill="url(#wa-bg-grad)" />
+      <!-- Borde exterior blanco de la burbuja de WhatsApp (sólido) -->
+      <path fill="#FFFFFF" d="M128 38c-49.7 0-90 40.3-90 90 0 15.9 4.2 31.4 12.1 45L38 218l46.2-12.1c13.2 7.2 28.2 11 43.8 11 49.7 0 90-40.3 90-90s-40.3-90-90-90z" />
+      <!-- Interior verde de la burbuja de WhatsApp (sólido) -->
+      <path fill="#25D366" d="M128 53.2c-41.3 0-74.8 33.5-74.8 74.8 0 14.2 4 27.9 11.4 39.8l1.8 2.9-7.5 27.3 28.1-7.4 2.8 1.6c11.5 6.8 24.7 10.5 38.2 10.5 41.3 0 74.8-33.5 74.8-74.8S169.3 53.2 128 53.2z" />
+      <!-- Auricular blanco oficial de WhatsApp -->
+      <path fill="#FFFFFF" d="M166.5 146.6c-2.1-1.1-12.5-6.2-14.4-6.9-1.9-.7-3.3-1.1-4.8 1.1-1.4 2.1-5.5 6.9-6.7 8.3-1.2 1.4-2.5 1.6-4.6.5-2.1-1.1-8.9-3.3-17-10.5-6.3-5.6-10.5-12.5-11.8-14.6-1.2-2.1-.1-3.3.9-4.3 1-1 2.1-2.5 3.2-3.7 1.1-1.2 1.4-2.1 2.1-3.5.7-1.4.4-2.6-.2-3.7-.5-1.1-4.8-11.5-6.5-15.7-1.7-4.1-3.5-3.6-4.8-3.6-1.2-.1-2.6-.1-4.1-.1s-3.7.5-5.6 2.6c-1.9 2.1-7.4 7.2-7.4 17.5s7.6 20.3 8.6 21.7c1.1 1.4 14.9 22.8 36.1 31.9 5 2.2 9 3.5 12.1 4.4 5.1 1.6 9.7 1.4 13.4.8 4.1-.6 12.5-5.1 14.2-10.1 1.8-4.9 1.8-9.2 1.2-10.1-.5-.9-1.9-1.4-4-2.5z" />
+    </svg>
   </a>
 
   <!-- SCRIPTS MODULARES -->
-  <script type="module" src="./src/main.js?v=20261110_xd_v6"></script>
+  <script type="module" src="./src/main.js?v=20261121_scroll_motion_v33"></script>
 </body>
 </html>

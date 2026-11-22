@@ -106,8 +106,8 @@ export function openSpeakerTrajectory(speaker) {
   if (bioEl) bioEl.textContent = speaker.bio;
 
   if (timelineEl) {
-    timelineEl.innerHTML = (speaker.trajectory || []).map(t => `
-      <div class="trajectory-item">
+    timelineEl.innerHTML = (speaker.trajectory || []).map((t, idx) => `
+      <div class="trajectory-item" style="--traj-delay: ${80 + idx * 90}ms">
         <div class="trajectory-year">${t.year}</div>
         <div class="trajectory-role">${t.role}</div>
         <div class="trajectory-desc">${t.desc}</div>

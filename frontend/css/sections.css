@@ -336,7 +336,7 @@
   width: 165px;
   max-width: 165px;
   height: auto;
-  opacity: 0.45;
+  opacity: 1;
 }
 
 .presentacion-section .container {
@@ -1122,13 +1122,13 @@
   overflow: hidden;
 }
 
-/* Símbolo a la derecha aumentado igual al enlace de Adobe XD */
+/* Símbolo a la derecha que nace exactamente en el margen (top: 0) donde termina el banner del planeta */
 .watermark-ruta {
   right: 0;
-  top: 10px;
-  width: 320px;
-  height: 515px;
-  opacity: 0.72;
+  top: 0;
+  width: 390px;
+  height: 628px;
+  opacity: 0.78;
 }
 
 .ruta-section .container {
@@ -2222,6 +2222,7 @@
   height: 64px;
   border-radius: 50%;
   background-color: #25d366;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2236,7 +2237,6 @@
 .whatsapp-xd-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 
@@ -2331,6 +2331,10 @@
   .ruta-map-img {
     grid-column: 1 / -1;
     margin-bottom: 0.5rem;
+  }
+
+  .ruta-map-img-wrap .ruta-map-img {
+    margin-bottom: 0;
   }
 
   .ruta-pin-card,

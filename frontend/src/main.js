@@ -8,6 +8,7 @@ import { initPreloader } from './features/preloader.js';
 import { initWhatsApp } from './features/whatsapp.js';
 import { initSpeakers } from './features/speakers.js';
 import { initRegistroForm } from './features/registroForm.js?v=20261110_v4';
+import { initScrollAnimations, animateMissionCrossfade } from './features/scrollAnimations.js';
 
 const MISSIONS_DATA = {
   miami: {
@@ -44,8 +45,6 @@ function initEjesAccordion() {
   const cards = document.querySelectorAll('.eje-accordion-card');
   if (!cards.length) return;
 
-  const rightArrow = `<svg viewBox="0 0 18 18" width="16" height="16"><path d="M 3 9 L 15 9 M 10 4 L 15 9 L 10 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-
   cards.forEach((card) => {
     const header = card.querySelector('.eje-accordion-header');
     if (!header) return;
@@ -56,16 +55,12 @@ function initEjesAccordion() {
       cards.forEach((c) => {
         c.classList.remove('is-open');
         const h = c.querySelector('.eje-accordion-header');
-        const btn = c.querySelector('.eje-circle-btn');
         if (h) h.setAttribute('aria-expanded', 'false');
-        if (btn) btn.innerHTML = rightArrow;
       });
 
       if (!isAlreadyOpen) {
         card.classList.add('is-open');
         header.setAttribute('aria-expanded', 'true');
-        const btn = card.querySelector('.eje-circle-btn');
-        if (btn) btn.innerHTML = rightArrow;
       }
     });
   });
@@ -102,6 +97,8 @@ function initRutaMissions() {
     if (featCity) featCity.textContent = data.city;
     if (featCountry) featCountry.textContent = data.country;
     if (featDesc) featDesc.textContent = data.desc;
+
+    animateMissionCrossfade([featImg, featMonth, featCity, featCountry, featDesc], key);
   }
 
   pinCards.forEach((btn) => {
@@ -126,26 +123,90 @@ function initSpeakersCarousel() {
   if (!grid || !prevBtn || !nextBtn) return;
 
   let isAnimating = false;
+  let animTimer = null;
   const DURATION = 550;
   const EASING = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
 
   function getStepSize() {
-    const firstCard = grid.querySelector('.speaker-card-xd');
+    const cards = grid.querySelectorAll('.speaker-card-xd');
+    if (cards.length >= 2) {
+      const diff = cards[1].offsetLeft - cards[0].offsetLeft;
+      if (diff > 0) return diff;
+    }
+    const firstCard = cards[0];
     if (!firstCard) return 368;
     const style = window.getComputedStyle(grid);
     const gap = parseFloat(style.columnGap || style.gap || '28') || 28;
-    return firstCard.offsetWidth + gap;
+    return (firstCard.offsetWidth || 340) + gap;
   }
 
-  function slideNext() {
-    if (isAnimating) return;
+  function triggerCarouselParallax(dir) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const shift = dir === 'next' ? 14 : -14;
+    grid.querySelectorAll('.speaker-frame-bg').forEach((frame) => {
+      if (frame.animate) {
+        frame.animate(
+          [
+            { transform: `translate3d(${-shift * 0.35}px, 0, 0)` },
+            { transform: 'translate3d(0, 0, 0)' }
+          ],
+          { duration: 540, easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)' }
+        );
+      }
+    });
+    grid.querySelectorAll('.speaker-person-img').forEach((img) => {
+      if (img.animate) {
+        img.animate(
+          [
+            { transform: `translate3d(${shift}px, 0, 0) scale(0.985)` },
+            { transform: 'translate3d(0, 0, 0) scale(1)' }
+          ],
+          { duration: 560, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+        );
+      }
+    });
+    grid.querySelectorAll('.speaker-country-top').forEach((country) => {
+      if (country.animate) {
+        country.animate(
+          [
+            { transform: `translate3d(${shift * 0.5}px, -2px, 0)` },
+            { transform: 'translate3d(0, 0, 0)' }
+          ],
+          { duration: 500, delay: 20, easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)' }
+        );
+      }
+    });
+    grid.querySelectorAll('.speaker-badges-wrap').forEach((badge) => {
+      if (badge.animate) {
+        badge.animate(
+          [
+            { transform: `translate3d(${shift * 0.75}px, 0, 0)` },
+            { transform: 'translate3d(0, 0, 0)' }
+          ],
+          { duration: 540, delay: 35, easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)' }
+        );
+      }
+    });
+  }
+
+  function slideNext(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (isAnimating) {
+      clearTimeout(animTimer);
+      grid.style.transition = 'none';
+      const first = grid.firstElementChild;
+      if (first) grid.appendChild(first);
+      grid.style.transform = 'translate3d(0, 0, 0)';
+      void grid.offsetWidth;
+    }
     isAnimating = true;
     const step = getStepSize();
 
     grid.style.transition = EASING;
     grid.style.transform = `translate3d(-${step}px, 0, 0)`;
+    triggerCarouselParallax('next');
 
-    setTimeout(() => {
+    animTimer = setTimeout(() => {
       grid.style.transition = 'none';
       const first = grid.firstElementChild;
       if (first) grid.appendChild(first);
@@ -154,8 +215,14 @@ function initSpeakersCarousel() {
     }, DURATION);
   }
 
-  function slidePrev() {
-    if (isAnimating) return;
+  function slidePrev(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (isAnimating) {
+      clearTimeout(animTimer);
+      grid.style.transition = 'none';
+      grid.style.transform = 'translate3d(0, 0, 0)';
+      void grid.offsetWidth;
+    }
     isAnimating = true;
     const step = getStepSize();
 
@@ -169,8 +236,9 @@ function initSpeakersCarousel() {
 
     grid.style.transition = EASING;
     grid.style.transform = 'translate3d(0, 0, 0)';
+    triggerCarouselParallax('prev');
 
-    setTimeout(() => {
+    animTimer = setTimeout(() => {
       grid.style.transition = 'none';
       isAnimating = false;
     }, DURATION);
@@ -247,6 +315,7 @@ async function bootstrap() {
   initRutaMissions();
   initSpeakersCarousel();
   initVideoBox();
+  initScrollAnimations();
 
   // Header transparente sobre Hero, con blur al hacer scroll
   const navbar = document.getElementById('navbar');
